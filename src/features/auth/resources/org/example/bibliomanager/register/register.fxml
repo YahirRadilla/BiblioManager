@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewControllers.register.RegisterController">
+   <AnchorPane fx:id="registerContainer" prefHeight="800.0" prefWidth="516.0">
+      <ImageView fx:id="imageEyePassword" fitHeight="24.0" fitWidth="24.0" layoutX="402.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/ojo.png" />
+      </ImageView>
+      <JFXButton layoutX="166.0" layoutY="627.0" mnemonicParsing="false" onAction="#onRegister" prefHeight="48.0" prefWidth="182.0" styleClass="basic-buttons" text="Registrarse">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </JFXButton>
+      <JFXButton fx:id="moveToLoginButton" layoutX="215.0" layoutY="688.0" mnemonicParsing="false" onAction="#onMoveToLogin" styleClass="forgot-password-button" text="Iniciar Sesión" />
+      <JFXTextField fx:id="emailInputRegister" focusColor="#ff971d" layoutX="119.0" layoutY="296.0" prefHeight="42.0" prefWidth="317.0" promptText="Email" styleClass="login-inputs" />
+      <Text layoutX="128.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de Usuario">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="225.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/grupo.png" />
+      </ImageView>
+      <JFXPasswordField fx:id="passwordInputRegister" focusColor="#ff971d" layoutX="118.0" layoutY="475.0" prefHeight="42.0" prefWidth="317.0" promptText="Contraseña" styleClass="login-inputs" />
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="86.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/arroba.png" />
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="87.0" layoutY="484.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../images/candado.png" />
+      </ImageView>
+      <JFXButton id="password-button" fx:id="togglePasswordButton" layoutX="402.0" layoutY="484.0" mnemonicParsing="false" onAction="#seePassword" prefHeight="24.0" prefWidth="24.0" />
+      <JFXTextField fx:id="nameInputRegister" focusColor="#ff971d" layoutX="119.0" layoutY="236.0" prefHeight="42.0" prefWidth="317.0" promptText="Nombre" styleClass="login-inputs" />
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="86.0" layoutY="245.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/usuario.png" />
+         </image>
+      </ImageView>
+      <JFXTextField fx:id="phoneInputRegister" focusColor="#ff971d" layoutX="119.0" layoutY="356.0" prefHeight="42.0" prefWidth="317.0" promptText="Telefono" styleClass="login-inputs" />
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="88.0" layoutY="365.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/telefono.png" />
+         </image>
+      </ImageView>
+      <JFXTextField fx:id="directionInputRegister" focusColor="#ff971d" layoutX="118.0" layoutY="415.0" prefHeight="42.0" prefWidth="317.0" promptText="Dirección" styleClass="login-inputs" />
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="86.0" layoutY="424.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/mapas-y-banderas.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="87.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/candado.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="imageEyeConfirmPassword" fitHeight="24.0" fitWidth="24.0" layoutX="402.0" layoutY="544.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/ojo.png" />
+         </image>
+      </ImageView>
+      <JFXPasswordField fx:id="confirmPasswordInputRegister" focusColor="#ff971d" layoutX="118.0" layoutY="535.0" prefHeight="42.0" prefWidth="317.0" promptText="Confirmar Contraseña" styleClass="login-inputs" />
+      <JFXButton id="password-button" fx:id="toggleConfirmPasswordButton" layoutX="402.0" layoutY="544.0" mnemonicParsing="false" onAction="#seeConfirmPassword" prefHeight="24.0" prefWidth="24.0" />
+      <JFXTextField fx:id="auxPasswordInputRegister" focusColor="#ff971d" layoutX="118.0" layoutY="475.0" prefHeight="42.0" prefWidth="317.0" promptText="Contraseña" styleClass="login-inputs" visible="false" />
+      <JFXTextField fx:id="auxConfirmPasswordInputRegister" focusColor="#ff971d" layoutX="118.0" layoutY="535.0" prefHeight="42.0" prefWidth="317.0" promptText="Confirmar Contraseña" styleClass="login-inputs" visible="false" />
+   </AnchorPane>
+   <AnchorPane id="logo-container" layoutX="516.0" prefHeight="800.0" prefWidth="684.0">
+      <children>
+         <ImageView fitHeight="351.0" fitWidth="473.0" layoutX="117.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../images/logo.png" />
+            </image>
+         </ImageView>
+      </children>
+   </AnchorPane>
+</AnchorPane>
