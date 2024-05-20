@@ -6,27 +6,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import org.example.bibliomanager.controller.datasources.AuthDatasourceImplements;
+
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.helpers.HandleErrors;
 import org.example.bibliomanager.helpers.SeePassword;
-import org.example.bibliomanager.model.datasources.AuthDatasource;
-import org.example.bibliomanager.model.entities.User;
-import org.example.bibliomanager.model.repositories.AuthRepository;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import org.example.bibliomanager.model.entities.User;
+
+
+
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -37,27 +31,19 @@ public class LoginController {
     AuthRepositoryImplements authRepository = new AuthRepositoryImplements();
     HandleErrors handleErrors = new HandleErrors();
     SeePassword seePassword = new SeePassword();
-    Timer timer;
-    Color normalColor = new Color(0.30196, 0.30196, 0.30196,1);
-    Color errorColor = new Color(0.8588, 0.1882, 0.3373,1);
 
     private boolean isEyeOpen = true;
     @FXML
     private AnchorPane loginContainer;
     @FXML
     private Button createAccountButton;
-    @FXML
-    private Button loginButton;
+
     @FXML
     private JFXTextField emailInput;
     @FXML
     private JFXPasswordField passwordInput;
     @FXML
     private JFXTextField passwordAuxInput;
-    @FXML
-    private AnchorPane errorAlert;
-    @FXML
-    private Text errorText;
     @FXML
     private ImageView eyeImage;
     @FXML
@@ -83,7 +69,7 @@ public class LoginController {
 
     @FXML
     protected void seePassword(){
-        if(passwordInput.getText().equals("")) return;
+        if(passwordInput.getText().isEmpty()) return;
         seePassword.seePassword(passwordInput, passwordAuxInput, isEyeOpen, eyeImage, togglePasswordButton);
         if(isEyeOpen){
             isEyeOpen = false;
@@ -144,10 +130,7 @@ public class LoginController {
     }
 
     private boolean handleInputs(String email, String password) {
-        if(!Objects.equals(email, "") && !Objects.equals(password, "")){
-            return true;
-        }
-        return false;
+        return !Objects.equals(email, "") && !Objects.equals(password, "");
     }
 
 
