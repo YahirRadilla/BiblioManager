@@ -26,7 +26,7 @@ public class AuthDatasourceImplements extends AuthDatasource {
             stmt = conn.createStatement();
 
 
-            String selectQuery = "SELECT * FROM usuarios WHERE email = '"+ email + "' AND password = '" + passwordHashing.hashPassword(password) +"'" ;
+            String selectQuery = "SELECT * FROM Usuarios WHERE email = '"+ email + "' AND password = '" + passwordHashing.hashPassword(password) +"'" ;
             ResultSet rs = stmt.executeQuery(selectQuery);
             if (rs.next()) {
                 int id = rs.getInt("id");

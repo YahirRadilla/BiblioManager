@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXMasonryPane?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -43,6 +44,7 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <MFXProgressSpinner fx:id="loader" layoutX="589.0" layoutY="338.0" prefHeight="180.0" prefWidth="250.0" />
    
    </children>
 

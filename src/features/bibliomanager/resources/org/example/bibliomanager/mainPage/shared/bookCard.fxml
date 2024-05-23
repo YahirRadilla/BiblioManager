@@ -17,7 +17,7 @@
          </font>
       </Text>
       <Text fx:id="synopsis" layoutX="129.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus morbi eleifend enim, tristique " wrappingWidth="212.30078125" />
-      <MFXButton layoutX="129.0" layoutY="196.0" prefHeight="36.0" prefWidth="212.0" rippleRadius="30.0" styleClass="basic-buttons" text="Rentar" />
+      <MFXButton layoutX="129.0" layoutY="196.0" prefHeight="36.0" prefWidth="212.0" rippleRadius="30.0" styleClass="basic-buttons" text="Ver más" />
       <Pane layoutX="-10.0" layoutY="33.0" prefHeight="185.0" prefWidth="109.0" styleClass="panel-image">
          <children>
             <ImageView fx:id="image" fitHeight="200.0" fitWidth="115.0" layoutY="-7.0" pickOnBounds="true" styleClass="poster-book" />
