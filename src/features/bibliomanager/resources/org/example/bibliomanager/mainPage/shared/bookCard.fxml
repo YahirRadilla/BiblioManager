@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="251.0" prefWidth="354.0" styleClass="book-card" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.BookController">
+   <children>
+      <Text fx:id="title" layoutX="129.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="All the light we cannot see" wrappingWidth="212.30078125">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Text>
+      <Text layoutX="130.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="by " wrappingWidth="30.30078125">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fx:id="synopsis" layoutX="129.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Purus morbi eleifend enim, tristique " wrappingWidth="212.30078125" />
+      <MFXButton layoutX="129.0" layoutY="196.0" prefHeight="36.0" prefWidth="212.0" rippleRadius="30.0" styleClass="basic-buttons" text="Rentar" />
+      <Pane layoutX="-10.0" layoutY="33.0" prefHeight="185.0" prefWidth="109.0" styleClass="panel-image">
+         <children>
+            <ImageView fx:id="image" fitHeight="200.0" fitWidth="115.0" layoutY="-7.0" pickOnBounds="true" styleClass="poster-book" />
+         </children>
+      </Pane>
+      <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="129.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/estrella.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="rating" layoutX="147.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4.5" wrappingWidth="24.0" />
+      <Text fx:id="author" layoutX="150.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="anthony doerr" wrappingWidth="197.30078125">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

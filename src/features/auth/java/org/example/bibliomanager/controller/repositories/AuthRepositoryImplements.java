@@ -20,5 +20,10 @@ public class AuthRepositoryImplements extends AuthRepository {
         return datasource.register(email,password,name,phone,direction);
     }
 
+    @Override
+    public void logOut(User user) {
+        datasource.logOut(user);
+    }
+
 
 }

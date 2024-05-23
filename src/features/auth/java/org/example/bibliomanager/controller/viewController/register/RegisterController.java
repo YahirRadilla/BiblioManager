@@ -1,4 +1,4 @@
-package org.example.bibliomanager.controller.viewControllers.register;
+package org.example.bibliomanager.controller.viewController.register;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -107,7 +106,7 @@ public class RegisterController {
     }
 
     @FXML
-    protected void onMoveToLogin() {
+    protected void onMoveToLogin()  {
         try {
             Stage previousStage = (Stage) moveToLoginButton.getScene().getWindow();
             previousStage.close();

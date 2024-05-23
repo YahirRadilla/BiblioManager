@@ -1,4 +1,4 @@
-package org.example.bibliomanager.controller.viewControllers.login;
+package org.example.bibliomanager.controller.viewController.login;
 
 import com.jfoenix.controls.*;
 import javafx.fxml.FXML;
@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
+import org.example.bibliomanager.controller.viewController.MainPageController;
 import org.example.bibliomanager.helpers.HandleErrors;
 import org.example.bibliomanager.helpers.SeePassword;
 
@@ -91,7 +92,6 @@ public class LoginController {
     @FXML
     protected void onLoginClick() {
 
-
         String email = emailInput.getText();
         String password;
 
@@ -116,9 +116,12 @@ public class LoginController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/mainPage/mainPage.fxml"));
                 Parent root = fxmlLoader.load();
                 Stage stage = new Stage();
-                stage.setTitle("Registro de usuario");
+                stage.setTitle("Explorar");
                 stage.setResizable(false);
                 stage.setScene(new Scene(root));
+                MainPageController controller = fxmlLoader.getController();
+                controller.setValues(user);
+
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
