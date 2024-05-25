@@ -12,6 +12,6 @@ public abstract class BookDatasource{
     public abstract Book getBooksById(int id);
     public abstract ArrayList<Book> getBooksByGenre(String genre);
     public abstract ArrayList<Book> getBooksByQuery(String query);
-
+    public abstract ArrayList<String> getGenres();
 
 }

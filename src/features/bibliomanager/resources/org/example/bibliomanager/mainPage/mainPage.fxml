@@ -12,39 +12,24 @@
    <children>
       <AnchorPane layoutX="1.0" layoutY="111.0" prefHeight="689.0" prefWidth="1200.0">
          <children>
-            <MFXScrollPane layoutX="231.0" prefHeight="689.0" prefWidth="969.0" style="-fx-background-color: transparent;">
+            <MFXScrollPane fx:id="scrollPane" layoutX="231.0" prefHeight="689.0" prefWidth="969.0" style="-fx-background-color: transparent;">
                <content>
                   <JFXMasonryPane id="masonry-pane" fx:id="masonryPane" HSpacing="40.0" VSpacing="50.0" cellHeight="251.0" cellWidth="354.0" prefHeight="687.0" prefWidth="950.0" />
                </content>
             </MFXScrollPane>
-            <AnchorPane prefHeight="689.0" prefWidth="227.0" scaleZ="50.0">
+            <AnchorPane fx:id="genderMenuPanel" prefHeight="689.0" prefWidth="227.0" scaleZ="50.0">
                <children>
-                  <MFXButton depthLevel="LEVEL0" layoutX="52.0" layoutY="44.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="127.0" rippleAnimateBackground="false" styleClass="aside-menu-buttons" text="Todos los géneros">
+                  <MFXButton fx:id="allGenresButton" depthLevel="LEVEL0" layoutX="52.0" layoutY="50.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#onAllGenderClick" prefHeight="25.0" prefWidth="127.0" rippleAnimateBackground="false" styleClass="aside-menu-buttons" text="Todos los géneros">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </MFXButton>
                   <Label layoutX="41.0" layoutY="14.0" text="Libros por categoría" />
-                  <MFXButton depthLevel="LEVEL0" layoutX="52.0" layoutY="76.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="127.0" rippleAnimateBackground="false" styleClass="aside-menu-buttons" text="Novelas">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton depthLevel="LEVEL0" layoutX="52.0" layoutY="112.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="127.0" rippleAnimateBackground="false" styleClass="aside-menu-buttons" text="Novelas ligeras">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton depthLevel="LEVEL0" layoutX="52.0" layoutY="144.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="127.0" rippleAnimateBackground="false" styleClass="aside-menu-buttons" text="Fantasía">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </MFXButton>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-      <MFXProgressSpinner fx:id="loader" layoutX="589.0" layoutY="338.0" prefHeight="180.0" prefWidth="250.0" />
+      <MFXProgressSpinner fx:id="loader" layoutX="589.0" layoutY="338.0" prefHeight="180.0" prefWidth="250.0" visible="false" />
    
    </children>
 

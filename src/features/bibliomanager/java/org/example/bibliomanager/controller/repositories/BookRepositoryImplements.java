@@ -30,4 +30,9 @@ public class BookRepositoryImplements extends BookRepository {
     public ArrayList<Book> getBooksByQuery(String query) {
         return datasource.getBooksByQuery(query);
     }
+
+    @Override
+    public ArrayList<String> getGenres() {
+        return datasource.getGenres();
+    }
 }

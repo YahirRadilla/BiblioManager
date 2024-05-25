@@ -2,11 +2,17 @@ package org.example.bibliomanager.controller.viewController;
 
 import com.jfoenix.controls.JFXMasonryPane;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
@@ -17,44 +23,55 @@ import org.example.bibliomanager.model.entities.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainPageController{
-    //BookRepositoryImplements bookRepository = new BookRepositoryImplements();
-
+    BookRepositoryImplements bookRepository = new BookRepositoryImplements();
+    String currentGenre = "Todos los géneros";
+    ArrayList<String> genres = new ArrayList<>();
+    DatabaseQueryTask task = new DatabaseQueryTask();
     User user;
     @FXML
     private AnchorPane principalPanel;
     @FXML
+    private AnchorPane genderMenuPanel;
+    @FXML
     private JFXMasonryPane masonryPane;
     @FXML
     private MFXProgressSpinner loader;
+    @FXML
+    private MFXScrollPane scrollPane;
+    @FXML
+    private MFXButton allGenresButton;
+
 
 
 
     @FXML
     public void initialize() {
-        //ArrayList<Book> books = bookRepository.getBooks();
+        /*addHeader();
+        ArrayList<Book> books = bookRepository.getBooksByGenre("Épica");
+        addItemsToMasonryPane(books);*/
         addHeader();
-        loader.setVisible(true);
-        DatabaseQueryTask task = new DatabaseQueryTask();
-        task.setOnSucceeded(event -> {
 
-            // Obtiene los resultados de la tarea
-            ArrayList<Book> books = task.getValue();
+        genres = bookRepository.getGenres();
 
-            // Actualiza la interfaz de usuario con los resultados
-            addItemsToMasonryPane(books);
-            loader.setVisible(false);
-        });
-        task.setOnFailed(event -> {
-            // Maneja el error
-            loader.setVisible(false);
-            Throwable throwable = task.getException();
-            System.out.println(throwable);
-        });
+        addGenreButtons(genres);
 
-        new Thread(task).start();
+        setTask("get", "Todos los géneros");
 
+
+    }
+
+    @FXML
+    protected void onAllGenderClick(){
+        if(Objects.equals(currentGenre, "Todos los géneros")){
+            return;
+        }
+
+        masonryPane.getChildren().clear();
+
+        setTask("get", "Todos los géneros");
     }
 
     public void setValues(User user) {
@@ -93,9 +110,58 @@ public class MainPageController{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
     }
 
+    private void setTask(String method, String genre){
+
+        loader.setVisible(true);
+        task = new DatabaseQueryTask();
+        task.setMethod(method);
+        task.setGenre(genre);
+        scrollPane.setVvalue(0.0);
+        task.setOnSucceeded(event -> {
+            loader.setVisible(false);
+            ArrayList<Book> books = task.getValue();
+            addItemsToMasonryPane(books);
+            currentGenre = genre;
+        });
+        task.setOnFailed(event -> {
+            // Maneja el error
+            loader.setVisible(false);
+            Throwable throwable = task.getException();
+            System.out.println(throwable);
+        });
+        new Thread(task).start();
+    }
+
+    private void addGenreButtons(ArrayList<String> genres){
+        int buttonSpaces = 30;
+        for (String genre: genres){
+
+            MFXButton newGenreButton = new MFXButton();
+            newGenreButton.getStyleClass().add("aside-menu-buttons");
+            newGenreButton.setVisible(true);
+            newGenreButton.setLayoutX(allGenresButton.getLayoutX());
+            newGenreButton.setLayoutY(allGenresButton.getLayoutY() + buttonSpaces);
+            newGenreButton.setText(genre);
+            buttonSpaces+=30;
+            newGenreButton.setOnAction(actionEvent -> onGenderMenuClick(genre));
+            genderMenuPanel.getChildren().add(newGenreButton);
+        }
+    }
+
+
+    private void onGenderMenuClick(String genre){
+        if(Objects.equals(currentGenre, genre)){
+            return;
+        }
+
+        masonryPane.getChildren().clear();
+
+        setTask("genre", genre);
+    }
 
 
 }
