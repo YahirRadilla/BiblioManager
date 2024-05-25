@@ -7,9 +7,9 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class BookDatasourceImplements extends BookDatasource {
-    static final String URL = System.getenv("SQL_URL");
-    static final String USER = System.getenv("SQL_USER");
-    static final String PASSWORD = System.getenv("SQL_PASSWORD");
+    static final String URL = "jdbc:mysql://localhost:3306/GestionBiblioteca";
+    static final String USER = "root";
+    static final String PASSWORD = "A1M0ST_3ASYavgsql";
     Connection conn = null;
     Statement stmt = null;
     PreparedStatement pstmt = null;
