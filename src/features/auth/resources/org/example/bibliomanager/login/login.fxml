@@ -39,20 +39,6 @@
          <Image url="@../images/candado.png" />
       </ImageView>
       <JFXButton id="password-button" fx:id="togglePasswordButton" layoutX="388.0" layoutY="434.0" mnemonicParsing="false" onAction="#seePassword" prefHeight="24.0" prefWidth="24.0" />
-      <AnchorPane fx:id="errorAlert" focusTraversable="true" layoutX="-2.0" layoutY="752.0" prefHeight="48.0" prefWidth="516.0" visible="false">
-         <children>
-            <Text fx:id="errorText" fill="WHITE" layoutX="61.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="errorText" text="No se han rellenado todos los campos" textOrigin="CENTER">
-               <font>
-                  <Font size="17.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="45.0" fitWidth="41.0" layoutX="6.0" layoutY="-16.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/error.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
       <JFXTextField fx:id="passwordAuxInput" focusColor="#ff971d" layoutX="104.0" layoutY="425.0" prefHeight="42.0" prefWidth="317.0" styleClass="login-inputs" visible="false" />
    </AnchorPane>
 </AnchorPane>
