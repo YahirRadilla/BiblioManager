@@ -5,14 +5,10 @@ import com.jfoenix.controls.JFXMasonryPane;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
@@ -81,7 +77,7 @@ public class MainPageController{
 
     private void addHeader(){
         try {
-            FXMLLoader loaderHeader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/mainPage/shared/header.fxml"));
+            FXMLLoader loaderHeader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/header.fxml"));
             AnchorPane header = loaderHeader.load();
             HeaderController controller = loaderHeader.getController();
             controller.setValues(user);
@@ -100,7 +96,7 @@ public class MainPageController{
 
         for (Book book : books) {
             try {
-                FXMLLoader loaderCard = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/mainPage/shared/bookCard.fxml"));
+                FXMLLoader loaderCard = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/bookCard.fxml"));
                 AnchorPane card = loaderCard.load();
                 BookController controller = loaderCard.getController();
                 controller.setValues(book);

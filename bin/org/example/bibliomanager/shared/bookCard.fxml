@@ -25,7 +25,7 @@
       </Pane>
       <ImageView fitHeight="16.0" fitWidth="16.0" layoutX="129.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/estrella.png" />
+            <Image url="@../images/estrella.png" />
          </image>
       </ImageView>
       <Text fx:id="rating" layoutX="147.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4.5" wrappingWidth="24.0" />
