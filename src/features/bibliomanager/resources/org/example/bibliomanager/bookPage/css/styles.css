@@ -4,16 +4,11 @@
 
 }
 
-.book-card{
-    -fx-border-radius: 15px;
-    -fx-background-radius: 15px;
-    -fx-background-color: white;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 1,2, 5, 5);
 
-}
 .book-container{
     -fx-border-radius: 16px;
     -fx-background-radius: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 1, 2, 5, 5);
 }
 
 .background{

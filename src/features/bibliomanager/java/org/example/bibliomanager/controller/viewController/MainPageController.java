@@ -99,7 +99,7 @@ public class MainPageController{
                 FXMLLoader loaderCard = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/bookCard.fxml"));
                 AnchorPane card = loaderCard.load();
                 BookController controller = loaderCard.getController();
-                controller.setValues(book);
+                controller.setValues(book,user);
 
                 masonryPane.getChildren().add(card);
 

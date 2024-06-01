@@ -21,25 +21,26 @@ public class BookDatasourceImplements extends BookDatasource {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             stmt = conn.createStatement();
             ArrayList<Book> books = new ArrayList<>();
-            String selectQuery = "SELECT \n" +
-                    "    L.id,\n" +
-                    "    L.titulo,\n" +
-                    "    L.sinopsis,\n" +
-                    "    A.nombre AS autor_nombre,\n" +
-                    "    C.nombre AS categoria_nombre,\n" +
-                    "    L.isbn,\n" +
-                    "    L.fecha_publicacion,\n" +
-                    "    I.ruta_archivo AS imagen_url,\n" +
-                    "    L.cantidad_disponible,\n" +
-                    "    L.calificacion\n" +
-                    "FROM \n" +
-                    "    Libros L\n" +
-                    "JOIN \n" +
-                    "    Autores A ON L.autor_id = A.id\n" +
-                    "JOIN \n" +
-                    "    Categorias C ON L.categoria_id = C.id\n" +
-                    "LEFT JOIN \n" +
-                    "    Imagenes I ON L.imagen_id = I.id;";
+            String selectQuery = """
+                    SELECT\s
+                        L.id,
+                        L.titulo,
+                        L.sinopsis,
+                        A.nombre AS autor_nombre,
+                        C.nombre AS categoria_nombre,
+                        L.isbn,
+                        L.fecha_publicacion,
+                        I.ruta_archivo AS imagen_url,
+                        L.cantidad_disponible,
+                        L.calificacion
+                    FROM\s
+                        Libros L
+                    JOIN\s
+                        Autores A ON L.autor_id = A.id
+                    JOIN\s
+                        Categorias C ON L.categoria_id = C.id
+                    LEFT JOIN\s
+                        Imagenes I ON L.imagen_id = I.id;""";
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()) {
                 int id = rs.getInt("id");

@@ -14,6 +14,10 @@ public class Book {
     private final int quantity;
     private final String img;
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

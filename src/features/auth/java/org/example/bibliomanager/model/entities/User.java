@@ -9,6 +9,25 @@ public class User {
     private final String phone;
     private final String direction;
 
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
 
     public User(int id, String name, String email, String phone, String direction) {
         this.id = id;
