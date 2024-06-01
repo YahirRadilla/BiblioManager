@@ -65,5 +65,6 @@ public class BookController {
         image.setImage(new Image(book.getImg()));
         this.book = book;
         this.user = user;
+
     }
 }

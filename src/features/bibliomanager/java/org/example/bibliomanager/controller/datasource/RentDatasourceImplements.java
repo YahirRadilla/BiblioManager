@@ -46,8 +46,8 @@ public class RentDatasourceImplements extends RentDatasource {
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, rent.getBook().getId()); // ID del libro
             pstmt.setInt(2, rent.getUser().getId()); // ID del usuario
-            pstmt.setString(3, rent.getPickUpDate()); // Fecha de recogida
-            pstmt.setString(4, rent.getReturnDate()); // Fecha de devolución
+            pstmt.setDate(3, rent.getPickUpDate()); // Fecha de recogida
+            pstmt.setDate(4, rent.getReturnDate()); // Fecha de devolución
             int filasInsertadas = pstmt.executeUpdate();
             if (filasInsertadas > 0) {
                 System.out.println("El préstamo se insertó correctamente en la base de datos.");

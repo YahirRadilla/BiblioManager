@@ -1,11 +1,14 @@
 package org.example.bibliomanager.model.entities;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class Rent {
-    private final int id;
+    private int id;
     private final Book book;
     private final User user;
-    private final String pickUpDate;
-    private final String returnDate;
+    private final Date pickUpDate;
+    private final Date returnDate;
 
     public int getId() {
         return id;
@@ -19,16 +22,23 @@ public class Rent {
         return user;
     }
 
-    public String getPickUpDate() {
+    public Date getPickUpDate() {
         return pickUpDate;
     }
 
-    public String getReturnDate() {
+    public Date getReturnDate() {
         return returnDate;
     }
 
-    public Rent(int id, Book book, User user, String pickUpDate, String returnDate ) {
+    public Rent(int id, Book book, User user, Date pickUpDate, Date returnDate ) {
         this.id = id;
+        this.book = book;
+        this.user = user;
+        this.pickUpDate = pickUpDate;
+        this.returnDate = returnDate;
+    }
+
+    public Rent(Book book, User user, Date pickUpDate, Date returnDate ) {
         this.book = book;
         this.user = user;
         this.pickUpDate = pickUpDate;

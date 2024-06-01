@@ -11,16 +11,21 @@ import javafx.scene.control.ListCell;
 import javax.security.auth.callback.Callback;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class DialogRentContentController {
 
     @FXML
-    private MFXDatePicker mfxDatePicker;
-
+    private MFXDatePicker pickUpPicker;
     @FXML
-    public void initialize() {
+    private MFXDatePicker returnPicker;
 
+    public ArrayList<MFXDatePicker> getDatePickers(){
+        ArrayList<MFXDatePicker> datePickers = new ArrayList<>();
+        datePickers.add(pickUpPicker);
+        datePickers.add(returnPicker);
+        return datePickers;
     }
 
 

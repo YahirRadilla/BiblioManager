@@ -1,6 +1,7 @@
 package org.example.bibliomanager.controller.viewController;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
@@ -25,6 +26,11 @@ import org.example.bibliomanager.model.entities.User;
 import org.example.bibliomanager.model.repositories.RentRepository;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class BookPageController {
@@ -33,7 +39,7 @@ public class BookPageController {
     User user;
     Book book;
     RentRepository rentRepository = new RentRepositoryImplements();
-
+    ArrayList<MFXDatePicker> datePickers;
 
     @FXML
     private StackPane rootPane;
@@ -69,19 +75,29 @@ public class BookPageController {
 
     public void showDialog(){
         try {
-            // Cargar el contenido del FXML
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/dialogRentContent.fxml"));
             Node dialogContent = loader.load();
+            DialogRentContentController dialogController = loader.getController();
+            datePickers = dialogController.getDatePickers();
 
-            // Crear el diálogo
             MFXGenericDialog dialog = new MFXGenericDialog();
             dialog.setHeaderText("Rentar " + book.getTitle());
+            dialog.setShowMinimize(false);
+            dialog.setShowAlwaysOnTop(false);
             dialog.setContent(dialogContent);
 
-            // Crear botones
+
             MFXButton okButton = new MFXButton("Guardar Renta");
             okButton.setOnAction(event -> {
-                rentRepository.insertRent(new Rent(1, book, user,"2024-05-31", "2024-06-31"));
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.forLanguageTag("es"));
+                LocalDate firstLocalDate = LocalDate.parse(datePickers.getFirst().getText(), formatter);
+                LocalDate lastLocalDate = LocalDate.parse(datePickers.getLast().getText(), formatter);
+
+                Date firstSqlDate = Date.valueOf(firstLocalDate);
+                Date lastSqlDate = Date.valueOf(lastLocalDate);
+
+                rentRepository.insertRent(new Rent(book, user,firstSqlDate, lastSqlDate));
                 rootPane.getChildren().remove(dialog);
                 rootPane.getChildren().removeIf(node -> node instanceof Rectangle); // Eliminar el fondo opaco
             });
@@ -94,21 +110,26 @@ public class BookPageController {
 
             dialog.addActions(okButton, cancelButton);
 
-            // Crear el fondo opaco
-            Rectangle overlay = new Rectangle(rootPane.getWidth(), rootPane.getHeight());
-            overlay.setFill(Color.rgb(0, 0, 0, 0.5)); // Color negro con 50% de opacidad
+            dialog.onCloseProperty().set(event -> {
+                rootPane.getChildren().remove(dialog);
+                rootPane.getChildren().removeIf(node -> node instanceof Rectangle); // Eliminar el fondo opaco
+            });
 
-            // Ajustar tamaño del overlay cuando se cambie el tamaño del rootPane
+
+            Rectangle overlay = new Rectangle(rootPane.getWidth(), rootPane.getHeight());
+            overlay.setFill(Color.rgb(0, 0, 0, 0.5));
+
+
             rootPane.widthProperty().addListener((obs, oldVal, newVal) -> overlay.setWidth(newVal.doubleValue()));
             rootPane.heightProperty().addListener((obs, oldVal, newVal) -> overlay.setHeight(newVal.doubleValue()));
 
-            // Agregar manejador de eventos para cerrar el diálogo al hacer clic en el overlay
+
             overlay.setOnMouseClicked(event -> {
                 rootPane.getChildren().remove(dialog);
                 rootPane.getChildren().remove(overlay); // Eliminar el fondo opaco
             });
 
-            // Agregar el fondo opaco y el diálogo al rootPane
+
             rootPane.getChildren().add(overlay);
             rootPane.getChildren().add(dialog);
 
@@ -161,5 +182,6 @@ public class BookPageController {
         date.setText(book.getDate());
         this.book = book;
         this.user = user;
+
     }
 }
