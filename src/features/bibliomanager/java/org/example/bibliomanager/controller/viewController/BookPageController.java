@@ -20,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.bibliomanager.controller.repositories.RentRepositoryImplements;
+import org.example.bibliomanager.helpers.DialogManager;
 import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.entities.Rent;
 import org.example.bibliomanager.model.entities.User;
@@ -39,7 +40,7 @@ public class BookPageController {
     User user;
     Book book;
     RentRepository rentRepository = new RentRepositoryImplements();
-    ArrayList<MFXDatePicker> datePickers;
+    //ArrayList<MFXDatePicker> datePickers;
 
     @FXML
     private StackPane rootPane;
@@ -74,68 +75,8 @@ public class BookPageController {
     }
 
     public void showDialog(){
-        try {
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/dialogRentContent.fxml"));
-            Node dialogContent = loader.load();
-            DialogRentContentController dialogController = loader.getController();
-            datePickers = dialogController.getDatePickers();
-
-            MFXGenericDialog dialog = new MFXGenericDialog();
-            dialog.setHeaderText("Rentar " + book.getTitle());
-            dialog.setShowMinimize(false);
-            dialog.setShowAlwaysOnTop(false);
-            dialog.setContent(dialogContent);
-
-
-            MFXButton okButton = new MFXButton("Guardar Renta");
-            okButton.setOnAction(event -> {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy", Locale.forLanguageTag("es"));
-                LocalDate firstLocalDate = LocalDate.parse(datePickers.getFirst().getText(), formatter);
-                LocalDate lastLocalDate = LocalDate.parse(datePickers.getLast().getText(), formatter);
-
-                Date firstSqlDate = Date.valueOf(firstLocalDate);
-                Date lastSqlDate = Date.valueOf(lastLocalDate);
-
-                rentRepository.insertRent(new Rent(book, user,firstSqlDate, lastSqlDate));
-                rootPane.getChildren().remove(dialog);
-                rootPane.getChildren().removeIf(node -> node instanceof Rectangle); // Eliminar el fondo opaco
-            });
-
-            MFXButton cancelButton = new MFXButton("Cancelar");
-            cancelButton.setOnAction(event -> {
-                rootPane.getChildren().remove(dialog);
-                rootPane.getChildren().removeIf(node -> node instanceof Rectangle); // Eliminar el fondo opaco
-            });
-
-            dialog.addActions(okButton, cancelButton);
-
-            dialog.onCloseProperty().set(event -> {
-                rootPane.getChildren().remove(dialog);
-                rootPane.getChildren().removeIf(node -> node instanceof Rectangle); // Eliminar el fondo opaco
-            });
-
-
-            Rectangle overlay = new Rectangle(rootPane.getWidth(), rootPane.getHeight());
-            overlay.setFill(Color.rgb(0, 0, 0, 0.5));
-
-
-            rootPane.widthProperty().addListener((obs, oldVal, newVal) -> overlay.setWidth(newVal.doubleValue()));
-            rootPane.heightProperty().addListener((obs, oldVal, newVal) -> overlay.setHeight(newVal.doubleValue()));
-
-
-            overlay.setOnMouseClicked(event -> {
-                rootPane.getChildren().remove(dialog);
-                rootPane.getChildren().remove(overlay); // Eliminar el fondo opaco
-            });
-
-
-            rootPane.getChildren().add(overlay);
-            rootPane.getChildren().add(dialog);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        DialogManager dialogManager = new DialogManager(book, user, rentRepository, rootPane, "/org/example/bibliomanager/shared/dialogRentContent.fxml");
+        dialogManager.showDialog();
     }
 
     @FXML
@@ -145,6 +86,8 @@ public class BookPageController {
             previousStage.close();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/mainPage/mainPage.fxml"));
             Parent root = fxmlLoader.load();
+            MainPageController controller = fxmlLoader.getController();
+            controller.setValues(user);
             Stage stage = new Stage();
             stage.setTitle("Main");
             stage.setResizable(false);

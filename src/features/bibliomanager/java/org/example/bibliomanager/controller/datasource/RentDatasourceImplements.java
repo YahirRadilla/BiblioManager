@@ -54,7 +54,7 @@ public class RentDatasourceImplements extends RentDatasource {
             } else {
                 System.out.println("No se pudo insertar el préstamo en la base de datos.");
             }
-            return null;
+            return "created";
 
         } catch (SQLException e) {
             e.printStackTrace();

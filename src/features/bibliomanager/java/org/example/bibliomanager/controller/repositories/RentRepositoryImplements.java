@@ -1,8 +1,7 @@
 package org.example.bibliomanager.controller.repositories;
 
-import org.example.bibliomanager.controller.datasource.BookDatasourceImplements;
+
 import org.example.bibliomanager.controller.datasource.RentDatasourceImplements;
-import org.example.bibliomanager.model.datasources.BookDatasource;
 import org.example.bibliomanager.model.datasources.RentDatasource;
 import org.example.bibliomanager.model.entities.Rent;
 import org.example.bibliomanager.model.repositories.RentRepository;

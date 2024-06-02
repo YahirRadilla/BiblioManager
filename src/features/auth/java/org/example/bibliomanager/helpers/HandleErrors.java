@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXTextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
@@ -19,10 +20,14 @@ public class HandleErrors {
     Color errorColor = new Color(0.8588, 0.1882, 0.3373,1);
 
 
-    public void showSnackbar(String message, AnchorPane loginContainer) {
+    public void showSnackbar(String message, Pane loginContainer, boolean error) {
         JFXSnackbar snackbar = new JFXSnackbar(loginContainer);
         snackbar.setPrefWidth(loginContainer.getWidth());
-        snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/snackbar.css").toExternalForm());
+        if(error){
+            snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/error-snackbar.css").toExternalForm());
+        }else{
+            snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/succesfull-snackbar.css").toExternalForm());
+        }
         snackbar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(2500)));
     }
 
@@ -37,7 +42,7 @@ public class HandleErrors {
 
 
     public void showErrors(String message,AnchorPane loginContainer, ArrayList<JFXTextField> textFields, ArrayList<JFXPasswordField> passwordFields){
-        showSnackbar(message, loginContainer);
+        showSnackbar(message, loginContainer, true);
         showInputErrors(errorColor, textFields, passwordFields);
 
         if (timer != null && timer.isRunning()) {
