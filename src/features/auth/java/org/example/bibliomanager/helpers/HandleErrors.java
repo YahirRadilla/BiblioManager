@@ -26,7 +26,7 @@ public class HandleErrors {
         if(error){
             snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/error-snackbar.css").toExternalForm());
         }else{
-            snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/succesfull-snackbar.css").toExternalForm());
+            snackbar.getStylesheets().add(getClass().getResource("/org/example/bibliomanager/shared/successfull-snackbar.css").toExternalForm());
         }
         snackbar.enqueue(new JFXSnackbar.SnackbarEvent(new JFXSnackbarLayout(message), Duration.millis(2500)));
     }

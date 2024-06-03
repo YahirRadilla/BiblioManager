@@ -9,9 +9,9 @@ import org.example.bibliomanager.model.entities.User;
 import java.sql.*;
 
 public class AuthDatasourceImplements extends AuthDatasource {
-    static final String URL = "jdbc:mysql://localhost:3306/GestionBiblioteca";
-    static final String USER = "root";
-    static final String PASSWORD = "A1M0ST_3ASYavgsql";
+    static final String URL = System.getenv("SQL_URL");
+    static final String USER = System.getenv("SQL_USER");
+    static final String PASSWORD = System.getenv("SQL_PASSWORD");
     Connection conn = null;
     Statement stmt = null;
     PasswordHashing passwordHashing = new PasswordHashing();
