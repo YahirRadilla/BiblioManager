@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
 import org.example.bibliomanager.helpers.DatabaseQueryTask;
+import org.example.bibliomanager.helpers.Header;
 import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.entities.User;
 
@@ -23,10 +24,13 @@ import java.util.Objects;
 
 public class MainPageController{
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
+    Header header = new Header();
     String currentGenre = "Todos los géneros";
     ArrayList<String> genres = new ArrayList<>();
     DatabaseQueryTask task = new DatabaseQueryTask();
+    HeaderController headerController;
     User user;
+
     @FXML
     private AnchorPane principalPanel;
     @FXML
@@ -70,24 +74,22 @@ public class MainPageController{
         setTask("get", "Todos los géneros");
     }
 
+    @FXML
+    protected void onSceneClick(){
+        header.closeListViewSearch();
+    }
+
     public void setValues(User user) {
         this.user = user;
         System.out.println(user);
     }
 
     private void addHeader(){
-        try {
-            FXMLLoader loaderHeader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/header.fxml"));
-            AnchorPane header = loaderHeader.load();
-            HeaderController controller = loaderHeader.getController();
-            controller.setValues(user);
 
-            principalPanel.getChildren().add(header);
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        header.addHeader("/org/example/bibliomanager/shared/header.fxml",user,principalPanel);
     }
+
+
 
     private void addItemsToMasonryPane(ArrayList<Book> books) {
         masonryPane.setPadding(new Insets(10, 10, 50, 70));

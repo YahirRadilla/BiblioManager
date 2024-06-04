@@ -142,6 +142,70 @@ public class BookDatasourceImplements extends BookDatasource {
 
     @Override
     public ArrayList<Book> getBooksByQuery(String query) {
+        try {
+
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            ArrayList<Book> books = new ArrayList<>();
+            String selectQuery = """
+            SELECT   
+                Libros.id,
+                Libros.titulo,
+                Libros.sinopsis,
+                Autores.nombre AS autor_nombre,
+                Categorias.nombre AS categoria_nombre,
+                Libros.isbn,
+                Libros.fecha_publicacion,
+                Imagenes.ruta_archivo AS imagen_url,
+                Libros.cantidad_disponible,
+                Libros.calificacion
+            FROM 
+                Libros
+            INNER JOIN 
+                Autores ON Libros.autor_id = Autores.id
+            INNER JOIN 
+                Categorias ON Libros.categoria_id = Categorias.id
+            LEFT JOIN 
+                Imagenes ON Libros.imagen_id = Imagenes.id
+            WHERE 
+                Libros.titulo LIKE ?
+                OR Libros.sinopsis LIKE ?
+                OR Autores.nombre LIKE ?
+                ;
+            """;
+
+
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, query);
+            pstmt.setString(2, query);
+            pstmt.setString(3, query);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("titulo");
+                String synopsis = rs.getString("sinopsis");
+                String authorName = rs.getString("autor_nombre");
+                String categoryName = rs.getString("categoria_nombre");
+                String isbn = rs.getString("isbn");
+                String publicationDate = rs.getString("fecha_publicacion");
+                String imageUrl = rs.getString("imagen_url");
+                int quantityAvailable = rs.getInt("cantidad_disponible");
+                float rating = rs.getFloat("calificacion");
+                Book newBook = new Book(id,title,synopsis,authorName,categoryName,isbn,publicationDate,rating,quantityAvailable,imageUrl);
+                books.add(newBook);
+            }
+            return books;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 

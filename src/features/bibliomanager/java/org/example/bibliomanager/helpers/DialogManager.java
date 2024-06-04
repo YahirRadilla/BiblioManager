@@ -26,10 +26,11 @@ public class DialogManager {
     HandleErrors handleErrors = new HandleErrors();
     private ArrayList<MFXDatePicker> datePickers;
     private final Book book;
-    private final User user;
-    private final RentRepository rentRepository;
+    private User user;
+    private RentRepository rentRepository;
     private final Pane rootPane;
     private final String contentUrl;
+    private String status = "rent";
 
     public DialogManager(Book book, User user, RentRepository rentRepository, Pane rootPane, String contentUrl) {
         this.book = book;
@@ -39,15 +40,29 @@ public class DialogManager {
         this.contentUrl = contentUrl;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public DialogManager(Book book, Pane rootPane, String contentUrl) {
+        this.book = book;
+        this.rootPane = rootPane;
+        this.contentUrl = contentUrl;
+    }
+
     public void showDialog() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(contentUrl));
             Node dialogContent = loader.load();
-            DialogRentContentController dialogController = loader.getController();
-            datePickers = dialogController.getDatePickers();
 
-            // Configurar validaciones en los DatePickers
-            setupDatePickersValidation();
+
+            switch (status) {
+                case "rent":
+                    DialogRentContentController dialogController = loader.getController();
+                    datePickers = dialogController.getDatePickers();
+                    setupDatePickersValidation();
+                    break;
+            }
 
             MFXGenericDialog dialog = createDialog(dialogContent);
             addActionsToDialog(dialog);
@@ -77,13 +92,28 @@ public class DialogManager {
     }
 
     private void addActionsToDialog(MFXGenericDialog dialog) {
-        MFXButton okButton = new MFXButton("Guardar Renta");
+        MFXButton okButton = new MFXButton();
         okButton.setOnAction(event -> handleOkAction(dialog));
+
+        switch (status) {
+            case "rent":
+                okButton.setText("Guardar Renta");
+                break;
+            case "edit":
+                okButton.setText("Editar");
+                okButton.setOnAction(event -> handleEditAction(dialog));
+                break;
+            case "create":
+                okButton.setText("Crear");
+                okButton.setOnAction(event -> handleCreateAction(dialog));
+                break;
+        }
+
 
         MFXButton cancelButton = new MFXButton("Cancelar");
         cancelButton.setOnAction(event -> handleCancelAction(dialog));
 
-        dialog.addActions(okButton, cancelButton);
+        dialog.addActions(okButton,cancelButton);
     }
 
     private void handleOkAction(MFXGenericDialog dialog) {
@@ -115,6 +145,10 @@ public class DialogManager {
             handleErrors.showSnackbar("Formato incorrecto", rootPane, true);
         }
     }
+
+    private void handleEditAction(MFXGenericDialog dialog) {}
+
+    private void handleCreateAction(MFXGenericDialog dialog) {}
 
     private void setupDatePickersValidation() {
         MFXDatePicker startDatePicker = datePickers.get(0);

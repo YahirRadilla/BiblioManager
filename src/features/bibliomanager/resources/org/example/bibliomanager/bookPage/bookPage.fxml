@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.BookPageController">
+<StackPane fx:id="rootPane" onMouseClicked="#onSceneClick" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.BookPageController">
    <children>
       <AnchorPane fx:id="principalPanel" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/styles.css">
          <children>
