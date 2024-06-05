@@ -26,7 +26,7 @@
                      <children>
                         <MFXTableView fx:id="table" layoutX="39.0" layoutY="81.0" prefHeight="527.0" prefWidth="894.0" />
                         <MFXButton layoutX="841.0" layoutY="27.0" onAction="#onCreate" prefHeight="33.0" prefWidth="92.0" text="Create" />
-                        <Text layoutX="39.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Libros" wrappingWidth="92.0">
+                        <Text fx:id="tableTitle" layoutX="39.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Libros" wrappingWidth="194.0">
                            <font>
                               <Font size="24.0" />
                            </font>

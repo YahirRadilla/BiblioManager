@@ -5,10 +5,30 @@ import java.time.LocalDate;
 
 public class Rent {
     private int id;
-    private final Book book;
-    private final User user;
+    private Book book;
+    private User user;
+    private String bookName;
+    private String userEmail;
+    private Date rentDate;
     private final Date pickUpDate;
     private final Date returnDate;
+    private boolean returned;
+
+    public Date getRentDate() {
+        return rentDate;
+    }
+
+    public boolean isReturned() {
+        return returned;
+    }
+
+    public String getBookName() {
+        return bookName;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
 
     public int getId() {
         return id;
@@ -36,6 +56,17 @@ public class Rent {
         this.user = user;
         this.pickUpDate = pickUpDate;
         this.returnDate = returnDate;
+        this.returned = false;
+    }
+
+    public Rent(int id, Date pickUpDate, Date rentDate ,Date returnDate, boolean returned, String bookName, String userEmail ) {
+        this.id = id;
+        this.pickUpDate = pickUpDate;
+        this.rentDate = rentDate;
+        this.returnDate = returnDate;
+        this.returned = returned;
+        this.bookName = bookName;
+        this.userEmail = userEmail;
     }
 
     public Rent(Book book, User user, Date pickUpDate, Date returnDate ) {

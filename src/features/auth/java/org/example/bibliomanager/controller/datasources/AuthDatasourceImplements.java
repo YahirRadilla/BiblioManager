@@ -4,9 +4,11 @@ package org.example.bibliomanager.controller.datasources;
 
 import org.example.bibliomanager.helpers.PasswordHashing;
 import org.example.bibliomanager.model.datasources.AuthDatasource;
+import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.entities.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class AuthDatasourceImplements extends AuthDatasource {
     static final String URL = System.getenv("SQL_URL");
@@ -88,5 +90,51 @@ public class AuthDatasourceImplements extends AuthDatasource {
     @Override
     public void logOut(User user) {
         user = null;
+    }
+
+    @Override
+    public ArrayList<User> getUsers() {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            stmt = conn.createStatement();
+            ArrayList<User> users = new ArrayList<>();
+            String selectQuery = "SELECT * FROM gestionbiblioteca.usuarios";
+            ResultSet rs = stmt.executeQuery(selectQuery);
+
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String name = rs.getString("nombre");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String phone = rs.getString("telefono");
+                String direction = rs.getString("direccion");
+                String registerDate = rs.getString("fecha_registro");
+                User newUser = new User(id,name,email,phone,direction,registerDate);
+                users.add(newUser);
+            }
+            return users;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String updateUser(User user) {
+        return "";
+    }
+
+    @Override
+    public String deleteUser(int id) {
+        return "";
     }
 }

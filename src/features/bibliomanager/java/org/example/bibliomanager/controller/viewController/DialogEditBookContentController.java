@@ -63,7 +63,7 @@ public class DialogEditBookContentController {
 
         authors = authorDatasource.getAuthors();
         for(Author author: authors){
-            authorNames.add(author.getNombre());
+            authorNames.add(author.getName());
         }
         ObservableList<String> authorList = FXCollections.observableArrayList(authorNames);
         authorCombo.setItems(authorList);

@@ -6,6 +6,8 @@ import org.example.bibliomanager.model.datasources.AuthDatasource;
 import org.example.bibliomanager.model.entities.User;
 import org.example.bibliomanager.model.repositories.AuthRepository;
 
+import java.util.ArrayList;
+
 public class AuthRepositoryImplements extends AuthRepository {
 
     AuthDatasource datasource = new AuthDatasourceImplements();
@@ -23,6 +25,21 @@ public class AuthRepositoryImplements extends AuthRepository {
     @Override
     public void logOut(User user) {
         datasource.logOut(user);
+    }
+
+    @Override
+    public ArrayList<User> getUsers() {
+        return datasource.getUsers();
+    }
+
+    @Override
+    public String updateUser(User user) {
+        return datasource.updateUser(user);
+    }
+
+    @Override
+    public String deleteUser(int id) {
+        return datasource.deleteUser(id);
     }
 
 

@@ -18,6 +18,43 @@ public class RentDatasourceImplements extends RentDatasource {
 
     @Override
     public ArrayList<Rent> getRents() {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            stmt = conn.createStatement();
+            ArrayList<Rent> rents = new ArrayList<>();
+            String selectQuery = """
+            SELECT p.id, l.titulo AS nombre_libro, u.email AS correo_usuario, 
+                   p.fecha_prestamo, p.fecha_recogida, p.fecha_devolucion, p.devuelto 
+            FROM Prestamos p
+            JOIN Libros l ON p.libro_id = l.id
+            JOIN Usuarios u ON p.usuario_id = u.id;
+            """;
+            ResultSet rs = stmt.executeQuery(selectQuery);
+            while(rs.next()) {
+                int id = rs.getInt("id");
+                String title = rs.getString("nombre_libro");
+                String email = rs.getString("correo_usuario");
+                Date rentDate = rs.getDate("fecha_prestamo");
+                Date pickUpDate = rs.getDate("fecha_recogida");
+                Date returnDate = rs.getDate("fecha_devolucion");
+                boolean isReturned = rs.getBoolean("devuelto");
+                Rent newRent = new Rent(id,pickUpDate,rentDate,returnDate,isReturned,title,email);
+                rents.add(newRent);
+
+            }
+            return rents;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         return null;
     }
 
