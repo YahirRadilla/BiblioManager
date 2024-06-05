@@ -153,7 +153,6 @@ public class HeaderController{
             stage.setTitle("Inicio de Sesión");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
-            authRepository.logOut(user);
             stage.show();
 
         } catch (IOException e) {

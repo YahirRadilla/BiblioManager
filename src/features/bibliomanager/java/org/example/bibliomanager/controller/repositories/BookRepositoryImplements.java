@@ -53,4 +53,9 @@ public class BookRepositoryImplements extends BookRepository {
     public ArrayList<String> getImages() {
         return datasource.getImages();
     }
+
+    @Override
+    public ArrayList<String> getTables() {
+        return datasource.getTables();
+    }
 }

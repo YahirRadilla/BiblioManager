@@ -387,5 +387,38 @@ public class BookDatasourceImplements extends BookDatasource {
         return null;
     }
 
+    @Override
+    public ArrayList<String> getTables() {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            stmt = conn.createStatement();
+            ArrayList<String> tablas = new ArrayList<>();
+            String tabla;
+            String selectQuery = """
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'GestionBiblioteca';
+            """;
+            ResultSet rs = stmt.executeQuery(selectQuery);
+            while(rs.next()) {
+                tabla = rs.getString("table_name");
+                tablas.add(tabla);
+            }
+            return tablas;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 
 }

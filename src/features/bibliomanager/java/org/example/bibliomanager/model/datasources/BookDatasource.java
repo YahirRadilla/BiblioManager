@@ -15,5 +15,6 @@ public abstract class BookDatasource{
     public abstract String updateBookById(int id, Book book);
     public abstract String addBook(Book book);
     public abstract ArrayList<String> getImages();
+    public abstract ArrayList<String> getTables();
 
 }
