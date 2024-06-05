@@ -280,7 +280,7 @@ public class BookDatasourceImplements extends BookDatasource {
                 categoria_id = (SELECT id FROM Categorias WHERE nombre = ?),
                 fecha_publicacion = ?,
                 isbn = ?
-            WHERE id = ?; -- Asegúrate de cambiar el id al del libro que deseas actualizar
+            WHERE id = ?; 
             """;
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setString(1, book.getTitle());
@@ -302,6 +302,81 @@ public class BookDatasourceImplements extends BookDatasource {
             return "not-updated";
         } finally {
             // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String addBook(Book book) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = """
+            INSERT INTO Libros (titulo, sinopsis, autor_id, categoria_id, isbn, fecha_publicacion, imagen_id, calificacion)
+            VALUES (
+                ?, 
+                ?, 
+                (SELECT id FROM Autores WHERE nombre = ?), 
+                (SELECT id FROM Categorias WHERE nombre = ?), 
+                ?, 
+                ?, 
+                (SELECT id FROM Imagenes WHERE nombre_archivo = ?),          
+                ?
+            );
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, book.getTitle());
+            pstmt.setString(2, book.getSynopsis());
+            pstmt.setString(3, book.getAuthor());
+            pstmt.setString(4, book.getCategory());
+            pstmt.setString(5, book.getIsbn());
+            pstmt.setString(6, book.getDate());
+            pstmt.setString(7, book.getNameImg());
+            pstmt.setDouble(8, book.getRating());
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+
+                return "created";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "not-created";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<String> getImages() {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            stmt = conn.createStatement();
+            final ArrayList<String> images = new ArrayList<>();
+            String selectQuery = "SELECT nombre_archivo FROM gestionbiblioteca.imagenes;";
+            ResultSet rs = stmt.executeQuery(selectQuery);
+            while(rs.next()) {
+                final String image = rs.getString("nombre_archivo");
+                images.add(image);
+            }
+            return images;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
             try {
                 if (stmt != null) stmt.close();
                 if (conn != null) conn.close();

@@ -43,4 +43,14 @@ public class BookRepositoryImplements extends BookRepository {
     public String updateBookById(int id, Book book) {
         return datasource.updateBookById(id, book);
     }
+
+    @Override
+    public String addBook(Book book) {
+        return datasource.addBook(book);
+    }
+
+    @Override
+    public ArrayList<String> getImages() {
+        return datasource.getImages();
+    }
 }

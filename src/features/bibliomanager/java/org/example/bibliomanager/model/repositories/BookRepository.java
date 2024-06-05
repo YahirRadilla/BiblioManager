@@ -13,4 +13,6 @@ public abstract class BookRepository {
     public abstract ArrayList<String> getGenres();
     public abstract String deleteBookById(int id);
     public abstract String updateBookById(int id, Book book);
+    public abstract String addBook(Book book);
+    public abstract ArrayList<String> getImages();
 }

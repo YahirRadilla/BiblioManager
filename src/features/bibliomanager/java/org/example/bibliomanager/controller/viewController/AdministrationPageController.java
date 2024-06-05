@@ -83,11 +83,14 @@ public class AdministrationPageController {
         dialogManager=new DialogManager(selectedBook, stackContainer, "/org/example/bibliomanager/shared/dialogEditBookContent.fxml", table, selectedItem);
         dialogManager.setStatus("edit");
         dialogManager.showDialog();
-            /*MyItem item = new MyItem(2, "Title()", "Author()", "Rating()", "Category()", "Date()", "Isbn()");
-            table.getItems().remove(selectedItem);
-            table.getItems().addFirst(item);
-            table.getSelectionModel().replaceSelection(item);*/
 
+    }
+
+    @FXML
+    protected void onCreate(){
+        dialogManager = new DialogManager(stackContainer,"/org/example/bibliomanager/shared/dialogCreateBookContent.fxml", table);
+        dialogManager.setStatus("create");
+        dialogManager.showDialog();
     }
 
     private void setupTableView(int limit) {

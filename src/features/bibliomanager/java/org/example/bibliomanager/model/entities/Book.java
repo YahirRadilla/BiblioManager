@@ -12,7 +12,8 @@ public class Book {
     private final String date;
     private final float rating;
     private final int quantity;
-    private final String img;
+    private String img;
+    private String nameImg;
 
     public int getId() {
         return id;
@@ -52,6 +53,10 @@ public class Book {
 
     public String getImg() {
         return img;
+    }
+
+    public String getNameImg() {
+        return nameImg;
     }
 
     @Override
@@ -94,5 +99,19 @@ public class Book {
         this.rating = rating;
         this.quantity = quantity;
         this.img = img;
+    }
+
+    public Book(String title, String synopsis, String author, String category, String isbn, String date, float rating, int quantity, String nameImg, String img) {
+
+        this.title = title;
+        this.synopsis = synopsis;
+        this.author = author;
+        this.category = category;
+        this.isbn = isbn;
+        this.date = date;
+        this.rating = rating;
+        this.quantity = quantity;
+        this.nameImg = nameImg;
+
     }
 }
