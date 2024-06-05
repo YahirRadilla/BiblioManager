@@ -1,6 +1,7 @@
 package org.example.bibliomanager.controller.datasource;
 
 import org.example.bibliomanager.model.datasources.BookDatasource;
+import org.example.bibliomanager.model.entities.Author;
 import org.example.bibliomanager.model.entities.Book;
 
 import java.sql.*;
@@ -237,4 +238,79 @@ public class BookDatasourceImplements extends BookDatasource {
         }
         return null;
     }
+
+    @Override
+    public String deleteBookById(int id) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            ArrayList<Author> authors = new ArrayList<>();
+            String selectQuery = "DELETE FROM libros WHERE id = ?";
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setInt(1, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+                return "deleted";
+            }
+
+        } catch (SQLException e) {
+            return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String updateBookById(int id, Book book) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = """
+            UPDATE Libros
+            SET
+                titulo = ?,
+                autor_id = (SELECT id FROM Autores WHERE nombre = ?),
+                calificacion = ?,
+                categoria_id = (SELECT id FROM Categorias WHERE nombre = ?),
+                fecha_publicacion = ?,
+                isbn = ?
+            WHERE id = ?; -- Asegúrate de cambiar el id al del libro que deseas actualizar
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, book.getTitle());
+            pstmt.setString(2, book.getAuthor());
+            pstmt.setFloat(3, book.getRating());
+            pstmt.setString(4, book.getCategory());
+            pstmt.setString(5, book.getDate());
+            pstmt.setString(6, book.getIsbn());
+            pstmt.setInt(7, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+
+                return "updated";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "not-updated";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+
 }

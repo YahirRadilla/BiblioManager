@@ -1,8 +1,6 @@
 package org.example.bibliomanager.controller.repositories;
 
 import org.example.bibliomanager.controller.datasource.BookDatasourceImplements;
-import org.example.bibliomanager.controller.datasources.AuthDatasourceImplements;
-import org.example.bibliomanager.model.datasources.AuthDatasource;
 import org.example.bibliomanager.model.datasources.BookDatasource;
 import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.repositories.BookRepository;
@@ -34,5 +32,15 @@ public class BookRepositoryImplements extends BookRepository {
     @Override
     public ArrayList<String> getGenres() {
         return datasource.getGenres();
+    }
+
+    @Override
+    public String deleteBookById(int id) {
+        return datasource.deleteBookById(id);
+    }
+
+    @Override
+    public String updateBookById(int id, Book book) {
+        return datasource.updateBookById(id, book);
     }
 }

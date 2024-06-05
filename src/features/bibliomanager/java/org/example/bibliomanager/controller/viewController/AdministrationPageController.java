@@ -1,16 +1,14 @@
 package org.example.bibliomanager.controller.viewController;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
 import org.example.bibliomanager.helpers.DialogManager;
+import org.example.bibliomanager.helpers.HandleErrors;
 import org.example.bibliomanager.helpers.Header;
 import org.example.bibliomanager.helpers.MyItem;
 import org.example.bibliomanager.model.entities.Book;
@@ -19,16 +17,19 @@ import org.example.bibliomanager.model.entities.User;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-public class administrationPageController {
+public class AdministrationPageController {
 
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
+    HandleErrors handleErrors = new HandleErrors();
     DialogManager dialogManager;
     Header header = new Header();
     User user;
     ArrayList<Book> books;
-    Book selecetedBook;
+    Book selectedBook;
     String[] bookColumns = {"ID", "Titulo", "Autor", "Calificación", "Género", "Fecha", "ISBN"};
 
+    @FXML
+    private StackPane stackContainer;
     @FXML
     private AnchorPane principalPanel;
     @FXML
@@ -45,16 +46,25 @@ public class administrationPageController {
         addHeader();
         setupTableView(7);
         addItemsToTableView();
+
+
     }
 
     @FXML
     protected void onDelete(){
 
-        MyItem selectedItem = table.getSelectionModel().getSelectedValues().get(0);
-        if (selectedItem != null) {
-            table.getItems().remove(selectedItem);
-            table.getSelectionModel().clearSelection();
+        MyItem selectedItem = table.getSelectionModel().getSelectedValues().getFirst();
+        System.out.println((int) selectedItem.getProperties()[0]);
+        String isDeleted = bookRepository.deleteBookById((int) selectedItem.getProperties()[0]);
+        if(isDeleted.equals("deleted")){
+            handleErrors.showSnackbar("El elemento ha sido borrado", stackContainer, true);
         }
+        if(isDeleted.equals("not-deleted")){
+            handleErrors.showSnackbar("El elemento no fue borrado, hay rentas pendientes", stackContainer, true);
+            return;
+        }
+        table.getItems().remove(selectedItem);
+        table.getSelectionModel().clearSelection();
 
     }
 
@@ -65,11 +75,12 @@ public class administrationPageController {
         for (Book book : books){
 
             if(book.getId() == (int) selectedItem.getProperties()[0]){
-                selecetedBook = book;
-                continue;
+                selectedBook = book;
+                break;
             }
         }
-        dialogManager=new DialogManager(selecetedBook, principalPanel, "/org/example/bibliomanager/shared/dialogEditBookContent.fxml");
+
+        dialogManager=new DialogManager(selectedBook, stackContainer, "/org/example/bibliomanager/shared/dialogEditBookContent.fxml", table, selectedItem);
         dialogManager.setStatus("edit");
         dialogManager.showDialog();
             /*MyItem item = new MyItem(2, "Title()", "Author()", "Rating()", "Category()", "Date()", "Isbn()");

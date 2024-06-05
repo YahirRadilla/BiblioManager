@@ -2,12 +2,15 @@ package org.example.bibliomanager.helpers;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
+import org.example.bibliomanager.controller.viewController.DialogEditBookContentController;
 import org.example.bibliomanager.controller.viewController.DialogRentContentController;
 import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.entities.Rent;
@@ -23,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class DialogManager {
+    BookRepositoryImplements bookRepository = new BookRepositoryImplements();
+    DialogEditBookContentController dialogEditController;
+    private MFXTableView<MyItem> table;
+    private MyItem selectedItem;
     HandleErrors handleErrors = new HandleErrors();
     private ArrayList<MFXDatePicker> datePickers;
     private final Book book;
@@ -44,10 +51,12 @@ public class DialogManager {
         this.status = status;
     }
 
-    public DialogManager(Book book, Pane rootPane, String contentUrl) {
+    public DialogManager(Book book, Pane rootPane, String contentUrl, MFXTableView<MyItem> table, MyItem selectedItem) {
         this.book = book;
         this.rootPane = rootPane;
         this.contentUrl = contentUrl;
+        this.table = table;
+        this.selectedItem = selectedItem;
     }
 
     public void showDialog() {
@@ -55,12 +64,15 @@ public class DialogManager {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(contentUrl));
             Node dialogContent = loader.load();
 
-
             switch (status) {
                 case "rent":
                     DialogRentContentController dialogController = loader.getController();
                     datePickers = dialogController.getDatePickers();
                     setupDatePickersValidation();
+                    break;
+                case "edit":
+                    dialogEditController = loader.getController();
+                    dialogEditController.setValues(book);
                     break;
             }
 
@@ -84,7 +96,17 @@ public class DialogManager {
 
     private MFXGenericDialog createDialog(Node dialogContent) {
         MFXGenericDialog dialog = new MFXGenericDialog();
-        dialog.setHeaderText("Rentar " + book.getTitle());
+        switch (status) {
+            case "rent":
+                dialog.setHeaderText("Rentar " + book.getTitle());
+                break;
+            case "edit":
+                dialog.setHeaderText("Editar " + book.getTitle());
+                break;
+            case "create":
+                dialog.setHeaderText("Crear entidad");
+                break;
+        }
         dialog.setShowMinimize(false);
         dialog.setShowAlwaysOnTop(false);
         dialog.setContent(dialogContent);
@@ -146,7 +168,19 @@ public class DialogManager {
         }
     }
 
-    private void handleEditAction(MFXGenericDialog dialog) {}
+    private void handleEditAction(MFXGenericDialog dialog) {
+        Book updatedBook = dialogEditController.getUpdatedBook();
+        String updateStatus = bookRepository.updateBookById(book.getId(), updatedBook);
+        System.out.println(updateStatus);
+        if(updateStatus.equals("updated")){
+            MyItem item = new MyItem(book.getId(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getRating(), updatedBook.getCategory(), updatedBook.getDate(), updatedBook.getIsbn());
+            table.getItems().remove(selectedItem);
+            table.getItems().addFirst(item);
+            table.getSelectionModel().replaceSelection(item);
+            handleErrors.showSnackbar("Libro Actualizado", rootPane, false);
+            closeDialog(dialog);
+        }
+    }
 
     private void handleCreateAction(MFXGenericDialog dialog) {}
 

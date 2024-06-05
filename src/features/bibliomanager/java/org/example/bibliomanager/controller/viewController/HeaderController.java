@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.example.bibliomanager.App;
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
 import org.example.bibliomanager.model.entities.Book;
@@ -91,6 +92,24 @@ public class HeaderController{
 
         previousQuery = query;
         setOnMouseItem();
+    }
+
+    @FXML
+    protected void goToAdministration(){
+        try {
+            Stage previousStage = (Stage) logOutButton.getScene().getWindow();
+            previousStage.close();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/administratorPage/administratorPage.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Administrador");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setOnMouseItem() {

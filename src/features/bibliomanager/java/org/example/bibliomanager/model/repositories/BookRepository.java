@@ -11,5 +11,6 @@ public abstract class BookRepository {
     public abstract ArrayList<Book> getBooksByGenre(String genre);
     public abstract ArrayList<Book> getBooksByQuery(String query);
     public abstract ArrayList<String> getGenres();
-
+    public abstract String deleteBookById(int id);
+    public abstract String updateBookById(int id, Book book);
 }

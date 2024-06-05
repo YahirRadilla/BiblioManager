@@ -3,7 +3,7 @@ package org.example.bibliomanager.model.entities;
 import java.security.Timestamp;
 
 public class Book {
-    private final int id;
+    private int id;
     private final String title;
     private final String synopsis;
     private final String author;
@@ -72,6 +72,19 @@ public class Book {
 
     public Book(int id, String title, String synopsis, String author, String category, String isbn, String date, float rating, int quantity, String img) {
         this.id = id;
+        this.title = title;
+        this.synopsis = synopsis;
+        this.author = author;
+        this.category = category;
+        this.isbn = isbn;
+        this.date = date;
+        this.rating = rating;
+        this.quantity = quantity;
+        this.img = img;
+    }
+
+    public Book(String title, String synopsis, String author, String category, String isbn, String date, float rating, int quantity, String img) {
+
         this.title = title;
         this.synopsis = synopsis;
         this.author = author;

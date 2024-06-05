@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="header" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.HeaderController">
+<AnchorPane fx:id="header" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.HeaderController">
      <children>
          <ImageView fitHeight="61.0" fitWidth="67.0" layoutX="47.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
              <image>
@@ -25,7 +23,7 @@
                  <Font name="System Bold" size="12.0" />
              </font>
          </MFXButton>
-         <MFXButton layoutX="846.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Administrar">
+         <MFXButton layoutX="846.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToAdministration" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: transparent;" text="Administrar">
              <font>
                  <Font name="System Bold" size="12.0" />
              </font>

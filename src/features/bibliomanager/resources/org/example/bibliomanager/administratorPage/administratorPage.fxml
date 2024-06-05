@@ -7,53 +7,59 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="principalPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.89" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F5F6F8;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.administrationPageController">
-   <children>
-      <AnchorPane layoutX="1.0" layoutY="111.0" prefHeight="689.0" prefWidth="1200.0">
-         <children>
-            <AnchorPane fx:id="genderMenuPanel" prefHeight="689.0" prefWidth="227.0" scaleZ="50.0">
-               <children>
-                  <Label layoutX="41.0" layoutY="14.0" text="Recursos" />
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="227.0" prefHeight="689.0" prefWidth="972.0">
-               <children>
-                  <MFXTableView fx:id="table" layoutX="39.0" layoutY="81.0" prefHeight="527.0" prefWidth="894.0" />
-                  <MFXButton layoutX="841.0" layoutY="27.0" prefHeight="33.0" prefWidth="92.0" text="Create" />
-                  <Text layoutX="39.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Libros" wrappingWidth="92.0">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="789.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/trash.png" />
-                     </image>
-                  </ImageView>
-                  <MFXButton layoutX="784.0" layoutY="27.0" onAction="#onDelete" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: transparent;" textFill="TRANSPARENT">
-                     <font>
-                        <Font size="1.0" />
-                     </font>
-                  </MFXButton>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="746.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/pencil.png" />
-                     </image>
-                  </ImageView>
-                  <MFXButton layoutX="741.0" layoutY="27.0" onAction="#onEdit" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: transparent;" text="Button" textFill="TRANSPARENT">
-                     <font>
-                        <Font size="1.0" />
-                     </font>
-                  </MFXButton>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-      <MFXProgressSpinner fx:id="loader" layoutX="589.0" layoutY="338.0" prefHeight="180.0" prefWidth="250.0" visible="false" />
-   
-   </children>
 
-</AnchorPane>
+<StackPane fx:id="stackContainer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.AdministrationPageController">
+   <children>
+      <AnchorPane fx:id="principalPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.89" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #F5F6F8;" stylesheets="@css/styles.css">
+         <children>
+            <AnchorPane layoutX="1.0" layoutY="111.0" prefHeight="689.0" prefWidth="1200.0">
+               <children>
+                  <AnchorPane fx:id="genderMenuPanel" prefHeight="689.0" prefWidth="227.0" scaleZ="50.0">
+                     <children>
+                        <Label layoutX="41.0" layoutY="14.0" text="Recursos" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="227.0" prefHeight="689.0" prefWidth="972.0">
+                     <children>
+                        <MFXTableView fx:id="table" layoutX="39.0" layoutY="81.0" prefHeight="527.0" prefWidth="894.0" />
+                        <MFXButton layoutX="841.0" layoutY="27.0" prefHeight="33.0" prefWidth="92.0" text="Create" />
+                        <Text layoutX="39.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Libros" wrappingWidth="92.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="789.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/trash.png" />
+                           </image>
+                        </ImageView>
+                        <MFXButton layoutX="784.0" layoutY="27.0" onAction="#onDelete" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: transparent;" textFill="TRANSPARENT">
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                        </MFXButton>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="746.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/pencil.png" />
+                           </image>
+                        </ImageView>
+                        <MFXButton layoutX="741.0" layoutY="27.0" onAction="#onEdit" prefHeight="33.0" prefWidth="34.0" style="-fx-background-color: transparent;" text="Button" textFill="TRANSPARENT">
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+            <MFXProgressSpinner fx:id="loader" layoutX="589.0" layoutY="338.0" prefHeight="180.0" prefWidth="250.0" visible="false" />
+         
+         </children>
+      
+      </AnchorPane>
+   </children>
+</StackPane>
