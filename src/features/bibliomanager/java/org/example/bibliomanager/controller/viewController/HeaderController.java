@@ -113,6 +113,28 @@ public class HeaderController{
         }
     }
 
+    @FXML
+    protected void goToExplorer(){
+        try {
+            Stage previousStage = (Stage) logOutButton.getScene().getWindow();
+            previousStage.close();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/mainPage/mainPage.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Página Principal");
+            stage.setResizable(false);
+            stage.setScene(new Scene(root));
+
+            MainPageController controller = fxmlLoader.getController();
+            controller.setValues(user);
+
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setOnMouseItem() {
         listView.setOnMouseClicked(event -> {
             String selectedItem = listView.getSelectionModel().getSelectedValues().get(0);

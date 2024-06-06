@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="header" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.HeaderController">
+<AnchorPane fx:id="header" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.HeaderController">
      <children>
          <ImageView fitHeight="61.0" fitWidth="67.0" layoutX="47.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
              <image>
@@ -18,7 +20,7 @@
                  <Image url="@../images/lupa.png" />
              </image>
          </ImageView>
-         <MFXButton depthLevel="LEVEL0" layoutX="762.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: transparent;" text="Explorar">
+         <MFXButton depthLevel="LEVEL0" layoutX="762.0" layoutY="21.0" mnemonicParsing="false" onAction="#goToExplorer" prefHeight="25.0" prefWidth="72.0" style="-fx-background-color: transparent;" text="Explorar">
              <font>
                  <Font name="System Bold" size="12.0" />
              </font>
