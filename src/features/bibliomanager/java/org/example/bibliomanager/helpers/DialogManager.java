@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.bibliomanager.controller.datasource.AuthorDatasource;
+import org.example.bibliomanager.controller.datasource.GenreDatasource;
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.RentRepositoryImplements;
@@ -30,6 +32,8 @@ public class DialogManager {
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
     AuthRepositoryImplements authRepository = new AuthRepositoryImplements();
     private RentRepository rentRepository = new RentRepositoryImplements();
+    AuthorDatasource authorDatasource = new AuthorDatasource();
+    GenreDatasource genreDatasource = new GenreDatasource();
     DialogEditContentController dialogEditController;
     DialogCreateContentController dialogCreateContentController;
     private MFXTableView<MyItem> table;
@@ -134,7 +138,6 @@ public class DialogManager {
                     }
                     if(currentContent.equals("author")){
                         dialogEditController.setValues(author);
-
                     }
                     if(currentContent.equals("genre")){
                         dialogEditController.setValues(genre);
@@ -261,6 +264,7 @@ public class DialogManager {
                 table.getItems().addFirst(item);
                 table.getSelectionModel().replaceSelection(item);
                 handleErrors.showSnackbar("Usuario Actualizado", rootPane, false);
+
                 closeDialog(dialog);
             }
         }
@@ -290,10 +294,28 @@ public class DialogManager {
             }
         }
         if(currentContent.equals("author")){
-            dialog.setHeaderText("Editar " + author.getName());
+            Author updatedAuthor = dialogEditController.getUpdatedAuthor();
+            String updateStatus = authorDatasource.updateAuthor(author.getId(), updatedAuthor);
+            if(updateStatus.equals("updated")){
+                MyItem item = new MyItem(author.getId(), updatedAuthor.getName());
+                table.getItems().remove(selectedItem);
+                table.getItems().addFirst(item);
+                table.getSelectionModel().replaceSelection(item);
+                handleErrors.showSnackbar("Autor Actualizado", rootPane, false);
+                closeDialog(dialog);
+            }
         }
         if(currentContent.equals("genre")){
-            dialog.setHeaderText("Editar " + genre.getName());
+            Genre updatedGenre = dialogEditController.getUpdatedGenre();
+            String updateStatus = genreDatasource.updateGenre(genre.getId(), updatedGenre);
+            if(updateStatus.equals("updated")) {
+                MyItem item = new MyItem(genre.getId(), updatedGenre.getName());
+                table.getItems().remove(selectedItem);
+                table.getItems().addFirst(item);
+                table.getSelectionModel().replaceSelection(item);
+                handleErrors.showSnackbar("Género Actualizado", rootPane, false);
+                closeDialog(dialog);
+            }
         }
 
 

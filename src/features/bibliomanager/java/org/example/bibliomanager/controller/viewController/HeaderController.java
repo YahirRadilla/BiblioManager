@@ -59,8 +59,6 @@ public class HeaderController{
         listView.setPrefSize(230.0, 0.0);
         listView.setMaxHeight(500.0);
 
-        //searchTextField.setTrailingIcon(new MFXFontIcon("mfx-info-circle-filled",18));
-
     }
 
     public void closeListViewSearch(){
@@ -70,7 +68,6 @@ public class HeaderController{
     @FXML
     protected void onSearchChange(){
         String query = searchTextField.getText().trim();
-
 
         if(previousQuery.equals(query)){
             return;
@@ -105,6 +102,10 @@ public class HeaderController{
             stage.setTitle("Administrador");
             stage.setResizable(false);
             stage.setScene(new Scene(root));
+
+            AdministrationPageController controller = fxmlLoader.getController();
+            controller.setValues(user);
+
             stage.show();
 
         } catch (IOException e) {

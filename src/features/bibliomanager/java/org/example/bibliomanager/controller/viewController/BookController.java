@@ -61,7 +61,7 @@ public class BookController {
         title.setText(book.getTitle());
         author.setText(book.getAuthor());
         rating.setText(String.valueOf(book.getRating()));
-        synopsis.setText(book.getSynopsis().substring(0, 100)+"...");
+        synopsis.setText(book.getSynopsis().substring(0, 50)+"...");
         image.setImage(new Image(book.getImg()));
         this.book = book;
         this.user = user;

@@ -65,7 +65,29 @@ public class RentDatasourceImplements extends RentDatasource {
 
     @Override
     public String deleteRent(int id) {
-        return "";
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = "DELETE FROM prestamos WHERE id = ?";
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setInt(1, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+                return "deleted";
+            }
+
+        } catch (SQLException e) {
+            return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -119,10 +141,10 @@ public class RentDatasourceImplements extends RentDatasource {
             String selectQuery = "INSERT INTO Prestamos (libro_id, usuario_id, fecha_recogida, fecha_devolucion) " +
                     "VALUES (?, ?, ?, ?)";
             pstmt = conn.prepareStatement(selectQuery);
-            pstmt.setInt(1, rent.getBook().getId()); // ID del libro
-            pstmt.setInt(2, rent.getUser().getId()); // ID del usuario
-            pstmt.setDate(3, rent.getPickUpDate()); // Fecha de recogida
-            pstmt.setDate(4, rent.getReturnDate()); // Fecha de devolución
+            pstmt.setInt(1, rent.getBook().getId());
+            pstmt.setInt(2, rent.getUser().getId());
+            pstmt.setDate(3, rent.getPickUpDate());
+            pstmt.setDate(4, rent.getReturnDate());
             int filasInsertadas = pstmt.executeUpdate();
             if (filasInsertadas > 0) {
                 System.out.println("El préstamo se insertó correctamente en la base de datos.");

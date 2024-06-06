@@ -52,7 +52,7 @@ public class MainPageController{
         /*addHeader();
         ArrayList<Book> books = bookRepository.getBooksByGenre("Épica");
         addItemsToMasonryPane(books);*/
-        addHeader();
+
 
         genres = bookRepository.getGenres();
 
@@ -81,11 +81,10 @@ public class MainPageController{
 
     public void setValues(User user) {
         this.user = user;
-        System.out.println(user);
+        addHeader();
     }
 
     private void addHeader(){
-
         header.addHeader("/org/example/bibliomanager/shared/header.fxml",user,principalPanel);
     }
 
@@ -126,7 +125,6 @@ public class MainPageController{
             currentGenre = genre;
         });
         task.setOnFailed(event -> {
-            // Maneja el error
             loader.setVisible(false);
             Throwable throwable = task.getException();
             System.out.println(throwable);

@@ -54,7 +54,7 @@ public class BookPageController {
     @FXML
     public void initialize() {
 
-        addHeader(); 
+
 
     }
 
@@ -89,7 +89,6 @@ public class BookPageController {
     }
 
     private void addHeader(){
-
         header.addHeader("/org/example/bibliomanager/shared/header.fxml",user,principalPanel);
     }
 
@@ -105,6 +104,7 @@ public class BookPageController {
         date.setText(book.getDate());
         this.book = book;
         this.user = user;
+        addHeader();
     }
 
 

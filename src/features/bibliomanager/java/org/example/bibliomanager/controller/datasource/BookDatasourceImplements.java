@@ -243,7 +243,6 @@ public class BookDatasourceImplements extends BookDatasource {
     public String deleteBookById(int id) {
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            ArrayList<Author> authors = new ArrayList<>();
             String selectQuery = "DELETE FROM libros WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);

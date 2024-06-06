@@ -44,4 +44,64 @@ public class GenreDatasource {
         return null;
     }
 
+    public String updateGenre(int id,Genre genre){
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = """
+            UPDATE Categorias
+            SET
+                nombre = ?
+            WHERE id = ?; 
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, genre.getName());
+            pstmt.setInt(2, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+
+                return "updated";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "not-updated";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public String deleteGenre(int id){
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = "DELETE FROM categorias WHERE id = ?";
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setInt(1, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+                return "deleted";
+            }
+
+        } catch (SQLException e) {
+            return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }

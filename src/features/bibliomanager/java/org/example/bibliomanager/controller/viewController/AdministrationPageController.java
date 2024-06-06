@@ -19,6 +19,7 @@ import org.example.bibliomanager.helpers.HandleErrors;
 import org.example.bibliomanager.helpers.Header;
 import org.example.bibliomanager.helpers.MyItem;
 import org.example.bibliomanager.model.entities.*;
+import org.example.bibliomanager.model.repositories.AuthRepository;
 import org.example.bibliomanager.model.repositories.RentRepository;
 
 import java.util.ArrayList;
@@ -70,6 +71,7 @@ public class AdministrationPageController {
 
     public void setValues(User user) {
         this.user = user;
+        addHeader();
     }
 
     @FXML
@@ -77,7 +79,6 @@ public class AdministrationPageController {
 
         books = bookRepository.getBooks();
         tables=bookRepository.getTables();
-        addHeader();
         setupTableView(bookColumns);
         addItemsToTableView(currentTable);
         addTableButtons(tables);
@@ -88,8 +89,24 @@ public class AdministrationPageController {
     protected void onDelete(){
 
         MyItem selectedItem = table.getSelectionModel().getSelectedValues().getFirst();
-        System.out.println((int) selectedItem.getProperties()[0]);
-        String isDeleted = bookRepository.deleteBookById((int) selectedItem.getProperties()[0]);
+        String isDeleted = "";
+        switch (currentTable){
+            case "libros":
+                isDeleted = bookRepository.deleteBookById((int) selectedItem.getProperties()[0]);
+                break;
+            case "usuarios":
+                isDeleted = authRepository.deleteUser((int) selectedItem.getProperties()[0]);
+                break;
+            case "prestamos":
+                isDeleted = rentRepository.deleteRent((int) selectedItem.getProperties()[0]);
+                break;
+            case "autores":
+                isDeleted = authorDatasource.deleteAuthor((int) selectedItem.getProperties()[0]);
+                break;
+            case "categorias":
+                isDeleted = genreDatasource.deleteGenre((int) selectedItem.getProperties()[0]);
+                break;
+        }
         if(isDeleted.equals("deleted")){
             handleErrors.showSnackbar("El elemento ha sido borrado", stackContainer, true);
         }
@@ -110,17 +127,18 @@ public class AdministrationPageController {
         contentUrl = "/org/example/bibliomanager/shared/dialogEditContent.fxml";
         switch (currentTable){
             case "libros":
+                books = bookRepository.getBooks();
                 for (Book book : books){
                     if(book.getId() == idSelectedItem){
                         selectedBook = book;
                         break;
                     }
                 }
-
                 dialogManager=new DialogManager(selectedBook, stackContainer, contentUrl, table, selectedItem);
                 dialogManager.setCurrentContent("book");
                 break;
             case "usuarios":
+                users = authRepository.getUsers();
                 for (User user : users){
                     if(user.getId() == idSelectedItem){
                         selectedUser = user;
@@ -132,7 +150,7 @@ public class AdministrationPageController {
                 dialogManager.setCurrentContent("user");
                 break;
             case "prestamos":
-                System.out.println("prestamos");
+                rents = rentRepository.getRents();
                 for (Rent rent : rents){
                     if(rent.getId() == idSelectedItem){
                         selectedRent = rent;
@@ -143,7 +161,7 @@ public class AdministrationPageController {
                 dialogManager.setCurrentContent("rentAd");
                 break;
             case "autores":
-
+                authors = authorDatasource.getAuthors();
                 for (Author author : authors){
                     if(author.getId() == idSelectedItem){
                         selectedAuthor = author;
@@ -154,6 +172,7 @@ public class AdministrationPageController {
                 dialogManager.setCurrentContent("author");
                 break;
             case "categorias":
+                genres = genreDatasource.getGenres();
                 for (Genre genre : genres){
                     if(genre.getId() == idSelectedItem){
                         selectedGenre = genre;

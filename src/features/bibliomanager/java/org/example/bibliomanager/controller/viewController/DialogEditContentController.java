@@ -118,6 +118,7 @@ public class DialogEditContentController {
     }
 
     public void setValues(Author author){
+        System.out.println(author.getName());
         this.author = author;
         authorAndGenreForm.setVisible(true);
         nameEntityInput.setText(author.getName());
@@ -138,11 +139,11 @@ public class DialogEditContentController {
 
 
     public Author getUpdatedAuthor(){
-        return new Author(1000, author.getName());
+        return new Author(1000, nameEntityInput.getText());
     }
 
     public Genre getUpdatedGenre(){
-        return new Genre(1000, genre.getName());
+        return new Genre(1000, nameEntityInput.getText());
     }
 
     public Rent getUpdatedRent(){

@@ -4,6 +4,7 @@ package org.example.bibliomanager.controller.datasources;
 
 import org.example.bibliomanager.helpers.PasswordHashing;
 import org.example.bibliomanager.model.datasources.AuthDatasource;
+import org.example.bibliomanager.model.entities.Author;
 import org.example.bibliomanager.model.entities.Book;
 import org.example.bibliomanager.model.entities.User;
 
@@ -174,6 +175,28 @@ public class AuthDatasourceImplements extends AuthDatasource {
 
     @Override
     public String deleteUser(int id) {
-        return "";
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = "DELETE FROM usuarios WHERE id = ?";
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setInt(1, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+                return "deleted";
+            }
+
+        } catch (SQLException e) {
+            return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

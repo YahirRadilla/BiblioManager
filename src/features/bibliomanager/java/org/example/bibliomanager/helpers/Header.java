@@ -12,7 +12,7 @@ public class Header {
 
     public void addHeader(String fxmlUrl, User user, AnchorPane principalPanel){
         try {
-            FXMLLoader loaderHeader = new FXMLLoader(getClass().getResource("/org/example/bibliomanager/shared/header.fxml"));
+            FXMLLoader loaderHeader = new FXMLLoader(getClass().getResource(fxmlUrl));
             AnchorPane header = loaderHeader.load();
             headerController = loaderHeader.getController();
 
