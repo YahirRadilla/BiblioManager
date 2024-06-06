@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
+import org.example.bibliomanager.controller.repositories.RentRepositoryImplements;
 import org.example.bibliomanager.controller.viewController.DialogCreateContentController;
 import org.example.bibliomanager.controller.viewController.DialogEditContentController;
 import org.example.bibliomanager.controller.viewController.DialogRentContentController;
@@ -28,6 +29,7 @@ import java.util.Locale;
 public class DialogManager {
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
     AuthRepositoryImplements authRepository = new AuthRepositoryImplements();
+    private RentRepository rentRepository = new RentRepositoryImplements();
     DialogEditContentController dialogEditController;
     DialogCreateContentController dialogCreateContentController;
     private MFXTableView<MyItem> table;
@@ -39,11 +41,11 @@ public class DialogManager {
     private Rent rent;
     private Author author;
     private Genre genre;
-    private RentRepository rentRepository;
     private final Pane rootPane;
     private final String contentUrl;
     private String status = "rent";
     private String currentContent = "book";
+    DatePickersValidation datePickersValidation = new DatePickersValidation();
 
     public DialogManager(Book book, User user, RentRepository rentRepository, Pane rootPane, String contentUrl) {
         this.book = book;
@@ -117,7 +119,7 @@ public class DialogManager {
                 case "rent":
                     DialogRentContentController dialogController = loader.getController();
                     datePickers = dialogController.getDatePickers();
-                    setupDatePickersValidation();
+                    datePickersValidation.setupDatePickersValidation(datePickers.get(0), datePickers.get(1),rootPane);
                     break;
                 case "edit":
                     dialogEditController = loader.getController();
@@ -128,7 +130,7 @@ public class DialogManager {
                         dialogEditController.setValues(user);
                     }
                     if(currentContent.equals("rentAd")){
-                        dialogEditController.setValues(rent);
+                        dialogEditController.setValues(rent, rootPane);
                     }
                     if(currentContent.equals("author")){
                         dialogEditController.setValues(author);
@@ -275,6 +277,18 @@ public class DialogManager {
                 closeDialog(dialog);
             }
         }
+        if(currentContent.equals("rentAd")){
+            Rent updatedRent = dialogEditController.getUpdatedRent();
+            String updateStatus = rentRepository.updateRent(rent.getId(), updatedRent);
+            if(updateStatus.equals("updated")){
+                MyItem item = new MyItem(rent.getId(), updatedRent.getBookName(), updatedRent.getUserEmail(),rent.getRentDate(), updatedRent.getPickUpDate(), updatedRent.getReturnDate(), updatedRent.isReturned());
+                table.getItems().remove(selectedItem);
+                table.getItems().addFirst(item);
+                table.getSelectionModel().replaceSelection(item);
+                handleErrors.showSnackbar("Renta Actualizado", rootPane, false);
+                closeDialog(dialog);
+            }
+        }
         if(currentContent.equals("author")){
             dialog.setHeaderText("Editar " + author.getName());
         }
@@ -297,25 +311,6 @@ public class DialogManager {
             handleErrors.showSnackbar("Libro creado", rootPane, false);
             closeDialog(dialog);
         }
-    }
-
-    private void setupDatePickersValidation() {
-        MFXDatePicker startDatePicker = datePickers.get(0);
-        MFXDatePicker endDatePicker = datePickers.get(1);
-
-        startDatePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
-            if (newDate != null && endDatePicker.getValue() != null && newDate.isAfter(endDatePicker.getValue())) {
-                handleErrors.showSnackbar("La fecha de inicio no puede ser después de la fecha de fin", rootPane, true);
-                startDatePicker.setValue(oldDate);  // Revertir al valor anterior
-            }
-        });
-
-        endDatePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
-            if (newDate != null && startDatePicker.getValue() != null && newDate.isBefore(startDatePicker.getValue())) {
-                handleErrors.showSnackbar("La fecha de fin no puede ser antes de la fecha de inicio", rootPane, true);
-                endDatePicker.setValue(oldDate);  // Revertir al valor anterior
-            }
-        });
     }
 
 

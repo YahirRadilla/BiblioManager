@@ -28,8 +28,8 @@ public class RentRepositoryImplements extends RentRepository {
     }
 
     @Override
-    public String updateRent(Rent rent) {
-        return datasource.updateRent(rent);
+    public String updateRent(int id,Rent rent) {
+        return datasource.updateRent(id,rent);
     }
 
     @Override

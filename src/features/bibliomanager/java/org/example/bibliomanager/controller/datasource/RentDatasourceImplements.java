@@ -69,8 +69,46 @@ public class RentDatasourceImplements extends RentDatasource {
     }
 
     @Override
-    public String updateRent(Rent rent) {
-        return "";
+    public String updateRent(int id, Rent rent) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = """
+            UPDATE Prestamos
+            SET
+                libro_id = (SELECT id FROM Libros WHERE titulo = ?),
+                usuario_id = (SELECT id FROM Usuarios WHERE email = ?),
+                fecha_recogida = ?,
+                fecha_devolucion = ?,
+                devuelto = ?
+            WHERE id = ?; 
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, rent.getBookName());
+            pstmt.setString(2, rent.getUserEmail());
+            pstmt.setDate(3, rent.getPickUpDate());
+            pstmt.setDate(4, rent.getReturnDate());
+            pstmt.setBoolean(5, rent.isReturned());
+            pstmt.setInt(6, id);
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+
+                return "updated";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "not-updated";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override

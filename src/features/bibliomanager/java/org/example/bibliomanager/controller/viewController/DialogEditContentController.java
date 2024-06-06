@@ -9,15 +9,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import org.example.bibliomanager.controller.datasource.AuthorDatasource;
 import org.example.bibliomanager.controller.datasource.BookDatasourceImplements;
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
+import org.example.bibliomanager.helpers.DatePickersValidation;
 import org.example.bibliomanager.model.entities.*;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class DialogEditContentController {
@@ -31,6 +36,7 @@ public class DialogEditContentController {
     Rent rent;
     Author author;
     Genre genre;
+    Pane rootPane;
 
     @FXML
     private AnchorPane principalForm;
@@ -102,11 +108,13 @@ public class DialogEditContentController {
         fillUserInputs();
     }
 
-    public void setValues(Rent rent){
+    public void setValues(Rent rent, Pane rootPane){
         this.rent = rent;
+        this.rootPane = rootPane;
         rentForm.setVisible(true);
         fillRentItemsCombos();
         fillRentInputs();
+        setValidationPickers();
     }
 
     public void setValues(Author author){
@@ -119,6 +127,28 @@ public class DialogEditContentController {
         this.genre = genre;
         authorAndGenreForm.setVisible(true);
         nameEntityInput.setText(genre.getName());
+    }
+
+
+    public void setValidationPickers(){
+        DatePickersValidation datePickersValidation = new DatePickersValidation();
+        datePickersValidation.setupDatePickersValidation(pickUpPicker,returnPicker, rootPane);
+    }
+
+
+
+    public Author getUpdatedAuthor(){
+        return new Author(1000, author.getName());
+    }
+
+    public Genre getUpdatedGenre(){
+        return new Genre(1000, genre.getName());
+    }
+
+    public Rent getUpdatedRent(){
+        Date pickUpSqlDate = Date.valueOf(pickUpPicker.getText());
+        Date returnSqlDate = Date.valueOf(returnPicker.getText());
+        return new Rent(1000, pickUpSqlDate, null, returnSqlDate, isReturnedToggle.isSelected(), bookCombo.getText(), userCombo.getText());
     }
 
     public User getUpdatedUser(){
