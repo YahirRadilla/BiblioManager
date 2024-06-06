@@ -9,13 +9,12 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
-import org.example.bibliomanager.controller.viewController.DialogCreateBookContentController;
-import org.example.bibliomanager.controller.viewController.DialogEditBookContentController;
+import org.example.bibliomanager.controller.viewController.DialogCreateContentController;
+import org.example.bibliomanager.controller.viewController.DialogEditContentController;
 import org.example.bibliomanager.controller.viewController.DialogRentContentController;
-import org.example.bibliomanager.model.entities.Book;
-import org.example.bibliomanager.model.entities.Rent;
-import org.example.bibliomanager.model.entities.User;
+import org.example.bibliomanager.model.entities.*;
 import org.example.bibliomanager.model.repositories.RentRepository;
 
 import java.io.IOException;
@@ -28,18 +27,23 @@ import java.util.Locale;
 
 public class DialogManager {
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
-    DialogEditBookContentController dialogEditController;
-    DialogCreateBookContentController dialogCreateBookContentController;
+    AuthRepositoryImplements authRepository = new AuthRepositoryImplements();
+    DialogEditContentController dialogEditController;
+    DialogCreateContentController dialogCreateContentController;
     private MFXTableView<MyItem> table;
     private MyItem selectedItem;
     HandleErrors handleErrors = new HandleErrors();
     private ArrayList<MFXDatePicker> datePickers;
     private Book book;
     private User user;
+    private Rent rent;
+    private Author author;
+    private Genre genre;
     private RentRepository rentRepository;
     private final Pane rootPane;
     private final String contentUrl;
     private String status = "rent";
+    private String currentContent = "book";
 
     public DialogManager(Book book, User user, RentRepository rentRepository, Pane rootPane, String contentUrl) {
         this.book = book;
@@ -57,6 +61,38 @@ public class DialogManager {
         this.selectedItem = selectedItem;
     }
 
+    public DialogManager(User user, Pane rootPane, String contentUrl, MFXTableView<MyItem> table, MyItem selectedItem) {
+        this.user = user;
+        this.rootPane = rootPane;
+        this.contentUrl = contentUrl;
+        this.table = table;
+        this.selectedItem = selectedItem;
+    }
+
+    public DialogManager(Rent rent, Pane rootPane, String contentUrl, MFXTableView<MyItem> table, MyItem selectedItem) {
+        this.rent = rent;
+        this.rootPane = rootPane;
+        this.contentUrl = contentUrl;
+        this.table = table;
+        this.selectedItem = selectedItem;
+    }
+
+    public DialogManager(Author author, Pane rootPane, String contentUrl, MFXTableView<MyItem> table, MyItem selectedItem) {
+        this.author = author;
+        this.rootPane = rootPane;
+        this.contentUrl = contentUrl;
+        this.table = table;
+        this.selectedItem = selectedItem;
+    }
+
+    public DialogManager(Genre genre, Pane rootPane, String contentUrl, MFXTableView<MyItem> table, MyItem selectedItem) {
+        this.genre = genre;
+        this.rootPane = rootPane;
+        this.contentUrl = contentUrl;
+        this.table = table;
+        this.selectedItem = selectedItem;
+    }
+
     public DialogManager(Pane rootPane, String contentUrl, MFXTableView<MyItem> table) {
         this.rootPane = rootPane;
         this.contentUrl = contentUrl;
@@ -66,6 +102,10 @@ public class DialogManager {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setCurrentContent(String currentContent) {
+        this.currentContent = currentContent;
     }
 
     public void showDialog() {
@@ -81,11 +121,27 @@ public class DialogManager {
                     break;
                 case "edit":
                     dialogEditController = loader.getController();
-                    dialogEditController.setValues(book);
+                    if(currentContent.equals("book")){
+                        dialogEditController.setValues(book);
+                    }
+                    if(currentContent.equals("user")){
+                        dialogEditController.setValues(user);
+                    }
+                    if(currentContent.equals("rentAd")){
+                        dialogEditController.setValues(rent);
+                    }
+                    if(currentContent.equals("author")){
+                        dialogEditController.setValues(author);
+
+                    }
+                    if(currentContent.equals("genre")){
+                        dialogEditController.setValues(genre);
+                    }
                     break;
                 case "create":
-                    dialogCreateBookContentController = loader.getController();
+                    dialogCreateContentController = loader.getController();
                     break;
+
             }
 
             MFXGenericDialog dialog = createDialog(dialogContent);
@@ -113,7 +169,18 @@ public class DialogManager {
                 dialog.setHeaderText("Rentar " + book.getTitle());
                 break;
             case "edit":
-                dialog.setHeaderText("Editar " + book.getTitle());
+                if(currentContent.equals("book")){
+                    dialog.setHeaderText("Editar " + book.getTitle());
+                }
+                if(currentContent.equals("user")){
+                    dialog.setHeaderText("Editar " + user.getName());
+                }
+                if(currentContent.equals("author")){
+                    dialog.setHeaderText("Editar " + author.getName());
+                }
+                if(currentContent.equals("genre")){
+                    dialog.setHeaderText("Editar " + genre.getName());
+                }
                 break;
             case "create":
                 dialog.setHeaderText("Crear entidad");
@@ -181,21 +248,46 @@ public class DialogManager {
     }
 
     private void handleEditAction(MFXGenericDialog dialog) {
-        Book updatedBook = dialogEditController.getUpdatedBook();
-        String updateStatus = bookRepository.updateBookById(book.getId(), updatedBook);
 
-        if(updateStatus.equals("updated")){
-            MyItem item = new MyItem(book.getId(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getRating(), updatedBook.getCategory(), updatedBook.getDate(), updatedBook.getIsbn());
-            table.getItems().remove(selectedItem);
-            table.getItems().addFirst(item);
-            table.getSelectionModel().replaceSelection(item);
-            handleErrors.showSnackbar("Libro Actualizado", rootPane, false);
-            closeDialog(dialog);
+        if(currentContent.equals("user")){
+            User updatedUser = dialogEditController.getUpdatedUser();
+            String updateStatus = authRepository.updateUser(user.getId(), updatedUser);
+
+            if(updateStatus.equals("updated")){
+                MyItem item = new MyItem(user.getId(), updatedUser.getName(), updatedUser.getEmail(), updatedUser.getPhone(), updatedUser.getDirection(), user.getRegisterDate());
+                table.getItems().remove(selectedItem);
+                table.getItems().addFirst(item);
+                table.getSelectionModel().replaceSelection(item);
+                handleErrors.showSnackbar("Usuario Actualizado", rootPane, false);
+                closeDialog(dialog);
+            }
         }
+        if(currentContent.equals("book")){
+            Book updatedBook = dialogEditController.getUpdatedBook();
+            String updateStatus = bookRepository.updateBookById(book.getId(), updatedBook);
+
+            if(updateStatus.equals("updated")){
+                MyItem item = new MyItem(book.getId(), updatedBook.getTitle(), updatedBook.getAuthor(), updatedBook.getRating(), updatedBook.getCategory(), updatedBook.getDate(), updatedBook.getIsbn());
+                table.getItems().remove(selectedItem);
+                table.getItems().addFirst(item);
+                table.getSelectionModel().replaceSelection(item);
+                handleErrors.showSnackbar("Libro Actualizado", rootPane, false);
+                closeDialog(dialog);
+            }
+        }
+        if(currentContent.equals("author")){
+            dialog.setHeaderText("Editar " + author.getName());
+        }
+        if(currentContent.equals("genre")){
+            dialog.setHeaderText("Editar " + genre.getName());
+        }
+
+
+
     }
 
     private void handleCreateAction(MFXGenericDialog dialog) {
-        Book newBook = dialogCreateBookContentController.getCreatedBook();
+        Book newBook = dialogCreateContentController.getCreatedBook();
         String createStatus = bookRepository.addBook(newBook);
         System.out.println(createStatus);
         if(createStatus.equals("created")){

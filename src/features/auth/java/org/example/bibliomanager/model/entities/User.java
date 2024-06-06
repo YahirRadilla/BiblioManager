@@ -42,6 +42,7 @@ public class User {
         this.direction = direction;
     }
 
+
     public User(int id, String name, String email, String phone, String direction, String registerDate) {
         this.id = id;
         this.name = name;

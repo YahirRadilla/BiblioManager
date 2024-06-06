@@ -16,6 +16,7 @@ public class AuthDatasourceImplements extends AuthDatasource {
     static final String PASSWORD = System.getenv("SQL_PASSWORD");
     Connection conn = null;
     Statement stmt = null;
+    PreparedStatement pstmt = null;
     PasswordHashing passwordHashing = new PasswordHashing();
 
 
@@ -129,8 +130,46 @@ public class AuthDatasourceImplements extends AuthDatasource {
     }
 
     @Override
-    public String updateUser(User user) {
-        return "";
+    public String updateUser(int id,User user) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String selectQuery = """
+            
+                    UPDATE Usuarios
+                    SET
+                        nombre = ?,
+                        email = ?,
+                        telefono = ?,
+                        direccion = ?
+                    WHERE id = ?;
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, user.getName());
+            pstmt.setString(2, user.getEmail());
+            pstmt.setString(3, user.getPhone());
+            pstmt.setString(4, user.getDirection());
+            pstmt.setInt(5, id);
+
+            int rs = pstmt.executeUpdate();
+
+            if (rs > 0) {
+
+                return "updated";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "not-updated";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override

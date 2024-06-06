@@ -42,11 +42,16 @@ public class AdministrationPageController {
     ArrayList<Author> authors;
     ArrayList<Genre> genres;
     Book selectedBook;
+    User selectedUser;
+    Rent selectedRent;
+    Author selectedAuthor;
+    Genre selectedGenre;
     String[] bookColumns = {"ID", "Titulo", "Autor", "Calificación", "Género", "Fecha", "ISBN"};
     String[] userColumns = {"ID", "Nombre", "email", "teléfono", "dirección", "Fecha registro"};
     String[] rentColumns = {"ID", "Libro", "Usuario", "fecha prestamo", "Fecha recogido", "Fecha devolución", "Devuelto"};
-    String[] authorAndGenreColumns = {"","","","ID", "Nombre"};
+    String[] authorAndGenreColumns = {"ID", "Nombre"};
     String currentTable = "libros";
+    String contentUrl = "";
     ArrayList<String> tables;
 
 
@@ -100,24 +105,76 @@ public class AdministrationPageController {
     @FXML
     protected void onEdit(){
 
-        MyItem selectedItem = table.getSelectionModel().getSelectedValues().get(0);
-        for (Book book : books){
+        MyItem selectedItem = table.getSelectionModel().getSelectedValues().getFirst();
+        int idSelectedItem = (int) selectedItem.getProperties()[0];
+        contentUrl = "/org/example/bibliomanager/shared/dialogEditContent.fxml";
+        switch (currentTable){
+            case "libros":
+                for (Book book : books){
+                    if(book.getId() == idSelectedItem){
+                        selectedBook = book;
+                        break;
+                    }
+                }
 
-            if(book.getId() == (int) selectedItem.getProperties()[0]){
-                selectedBook = book;
+                dialogManager=new DialogManager(selectedBook, stackContainer, contentUrl, table, selectedItem);
+                dialogManager.setCurrentContent("book");
                 break;
-            }
+            case "usuarios":
+                for (User user : users){
+                    if(user.getId() == idSelectedItem){
+                        selectedUser = user;
+                        break;
+                    }
+                }
+
+                dialogManager=new DialogManager(selectedUser, stackContainer, contentUrl, table, selectedItem);
+                dialogManager.setCurrentContent("user");
+                break;
+            case "prestamos":
+                System.out.println("prestamos");
+                for (Rent rent : rents){
+                    if(rent.getId() == idSelectedItem){
+                        selectedRent = rent;
+                        break;
+                    }
+                }
+                dialogManager=new DialogManager(selectedRent, stackContainer, contentUrl, table, selectedItem);
+                dialogManager.setCurrentContent("rentAd");
+                break;
+            case "autores":
+
+                for (Author author : authors){
+                    if(author.getId() == idSelectedItem){
+                        selectedAuthor = author;
+                        break;
+                    }
+                }
+                dialogManager=new DialogManager(selectedAuthor, stackContainer, contentUrl, table, selectedItem);
+                dialogManager.setCurrentContent("author");
+                break;
+            case "categorias":
+                for (Genre genre : genres){
+                    if(genre.getId() == idSelectedItem){
+                        selectedGenre = genre;
+                        break;
+                    }
+                }
+                dialogManager=new DialogManager(selectedGenre, stackContainer, contentUrl, table, selectedItem);
+                dialogManager.setCurrentContent("genre");
+                break;
         }
 
-        dialogManager=new DialogManager(selectedBook, stackContainer, "/org/example/bibliomanager/shared/dialogEditBookContent.fxml", table, selectedItem);
         dialogManager.setStatus("edit");
         dialogManager.showDialog();
+
 
     }
 
     @FXML
     protected void onCreate(){
-        dialogManager = new DialogManager(stackContainer,"/org/example/bibliomanager/shared/dialogCreateBookContent.fxml", table);
+
+        dialogManager = new DialogManager(stackContainer, "/org/example/bibliomanager/shared/dialogCreateContent.fxml", table);
         dialogManager.setStatus("create");
         dialogManager.showDialog();
     }
@@ -161,13 +218,14 @@ public class AdministrationPageController {
                 break;
             case "autores":
                 for (Author author : authors) {
-                    MyItem item = new MyItem("","","",author.getId(), author.getName());
+                    MyItem item = new MyItem(author.getId(), author.getName());
                     table.getItems().add(item);
+
                 }
                 break;
             case "categorias":
                 for (Genre genre : genres) {
-                    MyItem item = new MyItem("","","",genre.getId(), genre.getName());
+                    MyItem item = new MyItem(genre.getId(), genre.getName());
                     table.getItems().add(item);
                 }
                 break;

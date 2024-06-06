@@ -33,8 +33,8 @@ public class AuthRepositoryImplements extends AuthRepository {
     }
 
     @Override
-    public String updateUser(User user) {
-        return datasource.updateUser(user);
+    public String updateUser(int id,User user) {
+        return datasource.updateUser(id,user);
     }
 
     @Override

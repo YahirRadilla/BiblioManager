@@ -11,7 +11,7 @@ abstract public class AuthDatasource {
     public abstract String register(String email, String password,String name, String phone ,String direction);
     public abstract void logOut(User user);
     public abstract ArrayList<User> getUsers();
-    public abstract String updateUser(User user);
+    public abstract String updateUser(int id,User user);
     public abstract String deleteUser(int id);
     //public abstract User checkAuthentication(Boolean isActiveSession);
 }
