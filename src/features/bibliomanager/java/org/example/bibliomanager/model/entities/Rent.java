@@ -69,6 +69,14 @@ public class Rent {
         this.userEmail = userEmail;
     }
 
+    public Rent(int id, Date pickUpDate,Date returnDate, String bookName, String userEmail ) {
+        this.id = id;
+        this.pickUpDate = pickUpDate;
+        this.returnDate = returnDate;
+        this.bookName = bookName;
+        this.userEmail = userEmail;
+    }
+
     public Rent(Book book, User user, Date pickUpDate, Date returnDate ) {
         this.book = book;
         this.user = user;

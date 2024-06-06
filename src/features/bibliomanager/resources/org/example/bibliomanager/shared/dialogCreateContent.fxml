@@ -2,60 +2,138 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="546.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.DialogCreateContentController">
+
+<AnchorPane prefHeight="434.0" prefWidth="791.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.bibliomanager.controller.viewController.DialogCreateContentController">
    <children>
-      <Text layoutX="50.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXTextField fx:id="titleInput" layoutX="173.0" layoutY="38.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
-      <Text layoutX="50.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autor">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXComboBox fx:id="authorCombo" layoutX="173.0" layoutY="88.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
-      <Text layoutX="50.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calificación">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXTextField fx:id="ratingInput" layoutX="173.0" layoutY="139.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
-      <Text layoutX="50.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Género">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXComboBox fx:id="genreCombo" layoutX="173.0" layoutY="195.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
-      <Text layoutX="50.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXDatePicker fx:id="datePicker" layoutX="173.0" layoutY="254.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
-      <Text layoutX="50.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXTextField fx:id="isbnInput" layoutX="173.0" layoutY="310.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
-      <Text layoutX="50.0" layoutY="387.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="53.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imagen">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <MFXComboBox fx:id="imageCombo" layoutX="173.0" layoutY="425.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
-      <MFXTextField fx:id="description" layoutX="174.0" layoutY="366.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+      <AnchorPane fx:id="createBookContent" prefHeight="443.0" prefWidth="730.0" visible="false">
+         <children>
+            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="titleInput" layoutX="137.0" layoutY="14.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Autor">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXComboBox fx:id="authorCombo" layoutX="137.0" layoutY="64.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <Text layoutX="14.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calificación">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="ratingInput" layoutX="137.0" layoutY="115.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <Text layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Género">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXComboBox fx:id="genreCombo" layoutX="137.0" layoutY="171.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <Text layoutX="14.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXDatePicker fx:id="datePicker" layoutX="137.0" layoutY="230.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <Text layoutX="14.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="isbnInput" layoutX="137.0" layoutY="286.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <Text layoutX="14.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Descripción">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="17.0" layoutY="422.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imagen">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXComboBox fx:id="imageCombo" layoutX="137.0" layoutY="401.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <MFXTextField fx:id="description" layoutX="138.0" layoutY="342.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="createUserContent" prefHeight="273.0" prefWidth="805.0" visible="false">
+         <children>
+            <Text layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="nameUserInput" layoutX="137.0" layoutY="14.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <Text layoutX="14.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="14.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Telefono">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="phoneUserInput" layoutX="137.0" layoutY="115.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <Text layoutX="14.0" layoutY="192.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirección">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="14.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="emailUserInput" layoutX="137.0" layoutY="64.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <MFXTextField fx:id="directionUserInput" layoutX="137.0" layoutY="171.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+            <MFXPasswordField fx:id="passwordUserInput" layoutX="137.0" layoutY="230.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="createRentContent" prefHeight="249.0" prefWidth="805.0" visible="false">
+         <children>
+            <Text layoutX="41.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Libro">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="41.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Usuario">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="41.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Recogida">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="41.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha Devolución">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXComboBox fx:id="bookRentCombo" layoutX="173.0" layoutY="29.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <MFXComboBox fx:id="emailRentCombo" layoutX="173.0" layoutY="88.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <MFXDatePicker fx:id="pickUpPicker" layoutX="173.0" layoutY="150.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+            <MFXDatePicker fx:id="returnPicker" layoutX="173.0" layoutY="212.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="263.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="createAuthorOrGenreContent" layoutX="-2.0" prefHeight="203.0" prefWidth="805.0" visible="false">
+         <children>
+            <Text layoutX="40.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <MFXTextField fx:id="nameEntityInput" layoutX="162.0" layoutY="134.0" maxHeight="50.0" minHeight="10.0" prefHeight="32.0" prefWidth="587.0" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

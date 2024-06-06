@@ -1,6 +1,5 @@
 package org.example.bibliomanager.controller.datasource;
 
-import org.example.bibliomanager.model.entities.Author;
 import org.example.bibliomanager.model.entities.Genre;
 
 import java.sql.*;
@@ -19,7 +18,7 @@ public class GenreDatasource {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             stmt = conn.createStatement();
             ArrayList<Genre> genres = new ArrayList<>();
-            String selectQuery = "SELECT * FROM gestionbiblioteca.categorias";
+            String selectQuery = "SELECT * FROM railway.Categorias";
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()) {
                 int id = rs.getInt("id");
@@ -81,7 +80,7 @@ public class GenreDatasource {
     public String deleteGenre(int id){
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String selectQuery = "DELETE FROM categorias WHERE id = ?";
+            String selectQuery = "DELETE FROM Categorias WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);
             int rs = pstmt.executeUpdate();
@@ -92,6 +91,35 @@ public class GenreDatasource {
 
         } catch (SQLException e) {
             return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public String insertGenre(Genre genre){
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            String selectQuery = """
+            INSERT INTO Categorias (nombre) 
+            VALUES (?)
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, genre.getName());
+            int executedUpdate = pstmt.executeUpdate();
+            if (executedUpdate > 0) {
+                return "created";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             // Paso 4: Cerrar la conexión y los recursos
             try {

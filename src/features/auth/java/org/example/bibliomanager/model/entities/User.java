@@ -9,6 +9,11 @@ public class User {
     private final String phone;
     private final String direction;
     private String registerDate;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
 
     public String getRegisterDate() {
         return registerDate;
@@ -40,6 +45,15 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.direction = direction;
+    }
+
+    public User(String name,int id , String email, String phone, String direction, String password) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.direction = direction;
+        this.password = password;
     }
 
 

@@ -100,7 +100,7 @@ public class AuthDatasourceImplements extends AuthDatasource {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             stmt = conn.createStatement();
             ArrayList<User> users = new ArrayList<>();
-            String selectQuery = "SELECT * FROM gestionbiblioteca.usuarios";
+            String selectQuery = "SELECT * FROM railway.Usuarios";
             ResultSet rs = stmt.executeQuery(selectQuery);
 
             while(rs.next()) {
@@ -177,7 +177,7 @@ public class AuthDatasourceImplements extends AuthDatasource {
     public String deleteUser(int id) {
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String selectQuery = "DELETE FROM usuarios WHERE id = ?";
+            String selectQuery = "DELETE FROM Usuarios WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);
             int rs = pstmt.executeUpdate();

@@ -10,4 +10,5 @@ abstract public class RentDatasource {
     abstract public String deleteRent(int id);
     abstract public String updateRent(int id,Rent rent);
     abstract public String insertRent(Rent rent);
+    abstract public String insertRentAdmin(Rent rent);
 }

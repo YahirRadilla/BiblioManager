@@ -14,6 +14,7 @@ import org.example.bibliomanager.controller.datasource.GenreDatasource;
 import org.example.bibliomanager.controller.repositories.AuthRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.BookRepositoryImplements;
 import org.example.bibliomanager.controller.repositories.RentRepositoryImplements;
+import org.example.bibliomanager.controller.viewController.AdministrationPageController;
 import org.example.bibliomanager.controller.viewController.DialogCreateContentController;
 import org.example.bibliomanager.controller.viewController.DialogEditContentController;
 import org.example.bibliomanager.controller.viewController.DialogRentContentController;
@@ -27,14 +28,22 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class DialogManager {
+    Consumer<String> setupTableView;
+    String[] bookColumns = {"ID", "Titulo", "Autor", "Calificación", "Género", "Fecha", "ISBN"};
+    String[] userColumns = {"ID", "Nombre", "email", "teléfono", "dirección", "Fecha registro"};
+    String[] rentColumns = {"ID", "Libro", "Usuario", "fecha prestamo", "Fecha recogido", "Fecha devolución", "Devuelto"};
+    String[] authorAndGenreColumns = {"ID", "Nombre"};
     BookRepositoryImplements bookRepository = new BookRepositoryImplements();
     AuthRepositoryImplements authRepository = new AuthRepositoryImplements();
     private RentRepository rentRepository = new RentRepositoryImplements();
     AuthorDatasource authorDatasource = new AuthorDatasource();
     GenreDatasource genreDatasource = new GenreDatasource();
     DialogEditContentController dialogEditController;
+    AdministrationPageController administrationPageController;
     DialogCreateContentController dialogCreateContentController;
     private MFXTableView<MyItem> table;
     private MyItem selectedItem;
@@ -99,10 +108,11 @@ public class DialogManager {
         this.selectedItem = selectedItem;
     }
 
-    public DialogManager(Pane rootPane, String contentUrl, MFXTableView<MyItem> table) {
+    public DialogManager(Pane rootPane, String contentUrl, MFXTableView<MyItem> table, Consumer<String> setupTableView) {
         this.rootPane = rootPane;
         this.contentUrl = contentUrl;
         this.table = table;
+        this.setupTableView = setupTableView;
 
     }
 
@@ -145,6 +155,22 @@ public class DialogManager {
                     break;
                 case "create":
                     dialogCreateContentController = loader.getController();
+                    if(currentContent.equals("book")){
+                        dialogCreateContentController.setContent("book",rootPane);
+                    }
+                    if(currentContent.equals("user")){
+                        dialogCreateContentController.setContent("user",rootPane);
+                    }
+                    if(currentContent.equals("rentAd")){
+                        dialogCreateContentController.setContent("rentAd",rootPane);
+                    }
+                    if(currentContent.equals("author")){
+                        dialogCreateContentController.setContent("author",rootPane);
+                    }
+                    if(currentContent.equals("genre")){
+                        dialogCreateContentController.setContent("genre",rootPane);
+                    }
+
                     break;
 
             }
@@ -323,16 +349,61 @@ public class DialogManager {
     }
 
     private void handleCreateAction(MFXGenericDialog dialog) {
-        Book newBook = dialogCreateContentController.getCreatedBook();
-        String createStatus = bookRepository.addBook(newBook);
-        System.out.println(createStatus);
-        if(createStatus.equals("created")){
-            MyItem item = new MyItem(newBook.getId(), newBook.getTitle(), newBook.getAuthor(), newBook.getRating(), newBook.getCategory(), newBook.getDate(), newBook.getIsbn());
-            table.getItems().addFirst(item);
-            table.getSelectionModel().replaceSelection(item);
-            handleErrors.showSnackbar("Libro creado", rootPane, false);
-            closeDialog(dialog);
+        if(currentContent.equals("book")){
+            Book newBook = dialogCreateContentController.getCreatedBook();
+            String createStatus = bookRepository.addBook(newBook);
+            System.out.println(createStatus);
+            if(createStatus.equals("created")){
+                setupTableView.accept("Libros");
+                handleErrors.showSnackbar("Libro creado", rootPane, false);
+                closeDialog(dialog);
+            }
         }
+        if(currentContent.equals("user")){
+            User newUser = dialogCreateContentController.getCreatedUser();
+            String createStatus = authRepository.register(newUser.getEmail(),newUser.getPassword(), newUser.getName(), newUser.getPhone(), newUser.getDirection());
+            if(createStatus.equals("succesfully")){
+                    setupTableView.accept("Usuarios");
+                handleErrors.showSnackbar("Usuario creado", rootPane, false);
+                closeDialog(dialog);
+            }
+            if(createStatus.equals("email-duplicated")){
+                handleErrors.showSnackbar("Correo electrónico en uso", rootPane, true);
+            }
+            if(createStatus.equals("phone-duplicated")){
+                handleErrors.showSnackbar("Teléfono en uso", rootPane, true);
+            }
+
+        }
+
+        if(currentContent.equals("rentAd")){
+            Rent newRent = dialogCreateContentController.getCreatedRent();
+            String createStatus = rentRepository.insertRentAdmin(newRent);
+            if(createStatus.equals("created")){
+                setupTableView.accept("Prestamos");
+                handleErrors.showSnackbar("Renta creada", rootPane, false);
+                closeDialog(dialog);
+            }
+        }
+        if(currentContent.equals("author")){
+            Author newAuthor = dialogCreateContentController.getCreatedAuthor();
+            String createStatus = authorDatasource.insertAuthor(newAuthor);
+            if(createStatus.equals("created")){
+                setupTableView.accept("Autores");
+                handleErrors.showSnackbar("Autor creado", rootPane, false);
+                closeDialog(dialog);
+            }
+        }
+        if(currentContent.equals("genre")){
+            Genre newGenre = dialogCreateContentController.getCreatedGenre();
+            String createStatus = genreDatasource.insertGenre(newGenre);
+            if(createStatus.equals("created")){
+                setupTableView.accept("Categorias");
+                handleErrors.showSnackbar("Género creado", rootPane, false);
+                closeDialog(dialog);
+            }
+        }
+
     }
 
 

@@ -4,6 +4,8 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +27,7 @@ import org.example.bibliomanager.model.repositories.RentRepository;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
+import java.util.function.Function;
 
 public class AdministrationPageController {
 
@@ -51,7 +54,7 @@ public class AdministrationPageController {
     String[] userColumns = {"ID", "Nombre", "email", "teléfono", "dirección", "Fecha registro"};
     String[] rentColumns = {"ID", "Libro", "Usuario", "fecha prestamo", "Fecha recogido", "Fecha devolución", "Devuelto"};
     String[] authorAndGenreColumns = {"ID", "Nombre"};
-    String currentTable = "libros";
+    String currentTable = "Libros";
     String contentUrl = "";
     ArrayList<String> tables;
 
@@ -91,19 +94,19 @@ public class AdministrationPageController {
         MyItem selectedItem = table.getSelectionModel().getSelectedValues().getFirst();
         String isDeleted = "";
         switch (currentTable){
-            case "libros":
+            case "Libros":
                 isDeleted = bookRepository.deleteBookById((int) selectedItem.getProperties()[0]);
                 break;
-            case "usuarios":
+            case "Usuarios":
                 isDeleted = authRepository.deleteUser((int) selectedItem.getProperties()[0]);
                 break;
-            case "prestamos":
+            case "Prestamos":
                 isDeleted = rentRepository.deleteRent((int) selectedItem.getProperties()[0]);
                 break;
-            case "autores":
+            case "Autores":
                 isDeleted = authorDatasource.deleteAuthor((int) selectedItem.getProperties()[0]);
                 break;
-            case "categorias":
+            case "Categorias":
                 isDeleted = genreDatasource.deleteGenre((int) selectedItem.getProperties()[0]);
                 break;
         }
@@ -126,7 +129,7 @@ public class AdministrationPageController {
         int idSelectedItem = (int) selectedItem.getProperties()[0];
         contentUrl = "/org/example/bibliomanager/shared/dialogEditContent.fxml";
         switch (currentTable){
-            case "libros":
+            case "Libros":
                 books = bookRepository.getBooks();
                 for (Book book : books){
                     if(book.getId() == idSelectedItem){
@@ -137,7 +140,7 @@ public class AdministrationPageController {
                 dialogManager=new DialogManager(selectedBook, stackContainer, contentUrl, table, selectedItem);
                 dialogManager.setCurrentContent("book");
                 break;
-            case "usuarios":
+            case "Usuarios":
                 users = authRepository.getUsers();
                 for (User user : users){
                     if(user.getId() == idSelectedItem){
@@ -149,7 +152,7 @@ public class AdministrationPageController {
                 dialogManager=new DialogManager(selectedUser, stackContainer, contentUrl, table, selectedItem);
                 dialogManager.setCurrentContent("user");
                 break;
-            case "prestamos":
+            case "Prestamos":
                 rents = rentRepository.getRents();
                 for (Rent rent : rents){
                     if(rent.getId() == idSelectedItem){
@@ -160,7 +163,7 @@ public class AdministrationPageController {
                 dialogManager=new DialogManager(selectedRent, stackContainer, contentUrl, table, selectedItem);
                 dialogManager.setCurrentContent("rentAd");
                 break;
-            case "autores":
+            case "Autores":
                 authors = authorDatasource.getAuthors();
                 for (Author author : authors){
                     if(author.getId() == idSelectedItem){
@@ -171,7 +174,7 @@ public class AdministrationPageController {
                 dialogManager=new DialogManager(selectedAuthor, stackContainer, contentUrl, table, selectedItem);
                 dialogManager.setCurrentContent("author");
                 break;
-            case "categorias":
+            case "Categorias":
                 genres = genreDatasource.getGenres();
                 for (Genre genre : genres){
                     if(genre.getId() == idSelectedItem){
@@ -190,15 +193,7 @@ public class AdministrationPageController {
 
     }
 
-    @FXML
-    protected void onCreate(){
-
-        dialogManager = new DialogManager(stackContainer, "/org/example/bibliomanager/shared/dialogCreateContent.fxml", table);
-        dialogManager.setStatus("create");
-        dialogManager.showDialog();
-    }
-
-    private void setupTableView(String[] columns) {
+    public void setupTableView(String[] columns) {
         MFXTableColumn<MyItem> IdColumn = new MFXTableColumn<>(columns[0], true, Comparator.comparingInt(item -> (int) item.getProperty(0)));
         IdColumn.setRowCellFactory(item -> new MFXTableRowCell<>(cellItem -> cellItem.getProperty(0).toString()));
         table.getTableColumns().add(IdColumn);
@@ -215,34 +210,34 @@ public class AdministrationPageController {
 
     }
 
-    private void addItemsToTableView(String currentTable) {
+    public void addItemsToTableView(String currentTable) {
         switch (currentTable){
-            case "libros":
+            case "Libros":
                 for (Book book : books) {
                     MyItem item = new MyItem(book.getId(), book.getTitle(), book.getAuthor(), book.getRating(), book.getCategory(), book.getDate(), book.getIsbn());
                     table.getItems().add(item);
                 }
                 break;
-            case "usuarios":
+            case "Usuarios":
                 for (User user : users) {
                     MyItem item = new MyItem(user.getId(), user.getName(), user.getEmail(), user.getPhone(), user.getDirection(), user.getRegisterDate());
                     table.getItems().add(item);
                 }
                 break;
-            case "prestamos":
+            case "Prestamos":
                 for (Rent rent : rents) {
                     MyItem item = new MyItem(rent.getId(), rent.getBookName(), rent.getUserEmail(), rent.getRentDate(), rent.getPickUpDate(), rent.getReturnDate(), rent.isReturned());
                     table.getItems().add(item);
                 }
                 break;
-            case "autores":
+            case "Autores":
                 for (Author author : authors) {
                     MyItem item = new MyItem(author.getId(), author.getName());
                     table.getItems().add(item);
 
                 }
                 break;
-            case "categorias":
+            case "Categorias":
                 for (Genre genre : genres) {
                     MyItem item = new MyItem(genre.getId(), genre.getName());
                     table.getItems().add(item);
@@ -253,11 +248,40 @@ public class AdministrationPageController {
 
     }
 
+
+
+    @FXML
+    protected void onCreate(){
+
+        dialogManager = new DialogManager(stackContainer, "/org/example/bibliomanager/shared/dialogCreateContent.fxml", table, this::onTableMenuClick);
+        dialogManager.setStatus("create");
+        switch (currentTable){
+            case "Libros":
+                dialogManager.setCurrentContent("book");
+                break;
+            case "Usuarios":
+                dialogManager.setCurrentContent("user");
+                break;
+            case "Prestamos":
+                dialogManager.setCurrentContent("rentAd");
+                break;
+            case "Autores":
+                dialogManager.setCurrentContent("author");
+                break;
+            case "Categorias":
+                dialogManager.setCurrentContent("genre");
+                break;
+        }
+
+        dialogManager.showDialog();
+    }
+
+
     private void addTableButtons(ArrayList<String> tables){
 
         int buttonSpaces = 30;
         for (String table: tables){
-            if(!table.equals("imagenes")){
+            if(!table.equals("Imagenes")){
                 MFXButton newTableButton = new MFXButton();
                 newTableButton.getStyleClass().add("aside-menu-buttons");
                 newTableButton.setVisible(true);
@@ -272,41 +296,38 @@ public class AdministrationPageController {
         }
     }
 
-
-    private void onTableMenuClick(String table){
-        if(Objects.equals(currentTable, table)){
-            return;
-        }
+    public void onTableMenuClick(String table){
 
         this.table.getItems().clear();
         this.table.getTableColumns().clear();
         currentTable = table;
+        System.out.println(currentTable);
         switch (currentTable){
-            case "libros":
+            case "Libros":
                 books = bookRepository.getBooks();
                 setupTableView(bookColumns);
                 addItemsToTableView(currentTable);
                 tableTitle.setText(currentTable.toUpperCase().charAt(0) + currentTable.substring(1, currentTable.length()).toLowerCase());
                 break;
-            case "usuarios":
+            case "Usuarios":
                 users = authRepository.getUsers();
                 setupTableView(userColumns);
                 addItemsToTableView(currentTable);
                 tableTitle.setText(currentTable.toUpperCase().charAt(0) + currentTable.substring(1, currentTable.length()).toLowerCase());
                 break;
-            case "prestamos":
+            case "Prestamos":
                 rents = rentRepository.getRents();
                 setupTableView(rentColumns);
                 addItemsToTableView(currentTable);
                 tableTitle.setText(currentTable.toUpperCase().charAt(0) + currentTable.substring(1, currentTable.length()).toLowerCase());
                 break;
-            case "autores":
+            case "Autores":
                 authors = authorDatasource.getAuthors();
                 setupTableView(authorAndGenreColumns);
                 addItemsToTableView(currentTable);
                 tableTitle.setText(currentTable.toUpperCase().charAt(0) + currentTable.substring(1, currentTable.length()).toLowerCase());
                 break;
-            case "categorias":
+            case "Categorias":
                 genres = genreDatasource.getGenres();
                 setupTableView(authorAndGenreColumns);
                 addItemsToTableView(currentTable);
@@ -314,6 +335,9 @@ public class AdministrationPageController {
                 break;
         }
     }
+
+
+
 
     private void addHeader() {
         header.addHeader("/org/example/bibliomanager/shared/header.fxml", user, principalPanel);

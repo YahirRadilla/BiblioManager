@@ -217,7 +217,7 @@ public class BookDatasourceImplements extends BookDatasource {
             stmt = conn.createStatement();
             ArrayList<String> genres = new ArrayList<>();
             String genre;
-            String selectQuery = "SELECT * FROM gestionbiblioteca.categorias;";
+            String selectQuery = "SELECT * FROM railway.Categorias;";
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()) {
                 genre = rs.getString("nombre");
@@ -243,7 +243,7 @@ public class BookDatasourceImplements extends BookDatasource {
     public String deleteBookById(int id) {
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String selectQuery = "DELETE FROM libros WHERE id = ?";
+            String selectQuery = "DELETE FROM Libros WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);
             int rs = pstmt.executeUpdate();
@@ -365,7 +365,7 @@ public class BookDatasourceImplements extends BookDatasource {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
             stmt = conn.createStatement();
             final ArrayList<String> images = new ArrayList<>();
-            String selectQuery = "SELECT nombre_archivo FROM gestionbiblioteca.imagenes;";
+            String selectQuery = "SELECT nombre_archivo FROM railway.Imagenes;";
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()) {
                 final String image = rs.getString("nombre_archivo");
@@ -396,7 +396,7 @@ public class BookDatasourceImplements extends BookDatasource {
             String selectQuery = """
             SELECT table_name 
             FROM information_schema.tables 
-            WHERE table_schema = 'GestionBiblioteca';
+            WHERE table_schema = 'railway';
             """;
             ResultSet rs = stmt.executeQuery(selectQuery);
             while(rs.next()) {

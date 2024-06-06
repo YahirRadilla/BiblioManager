@@ -84,7 +84,7 @@ public class AuthorDatasource {
     public String deleteAuthor(int id){
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String selectQuery = "DELETE FROM autores WHERE id = ?";
+            String selectQuery = "DELETE FROM Autores WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);
             int rs = pstmt.executeUpdate();
@@ -95,6 +95,35 @@ public class AuthorDatasource {
 
         } catch (SQLException e) {
             return "not-deleted";
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public String insertAuthor(Author author){
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            String selectQuery = """
+            INSERT INTO Autores (nombre) 
+            VALUES (?)
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, author.getName());
+            int filasInsertadas = pstmt.executeUpdate();
+            if (filasInsertadas > 0) {
+                return "created";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             // Paso 4: Cerrar la conexión y los recursos
             try {

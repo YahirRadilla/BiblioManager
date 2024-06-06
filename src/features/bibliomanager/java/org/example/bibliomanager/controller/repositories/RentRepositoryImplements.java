@@ -36,4 +36,9 @@ public class RentRepositoryImplements extends RentRepository {
     public String insertRent(Rent rent) {
         return datasource.insertRent(rent);
     }
+
+    @Override
+    public String insertRentAdmin(Rent rent) {
+        return datasource.insertRentAdmin(rent);
+    }
 }

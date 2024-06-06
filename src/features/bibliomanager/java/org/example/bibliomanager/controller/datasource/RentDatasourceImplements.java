@@ -67,7 +67,7 @@ public class RentDatasourceImplements extends RentDatasource {
     public String deleteRent(int id) {
         try {
             conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            String selectQuery = "DELETE FROM prestamos WHERE id = ?";
+            String selectQuery = "DELETE FROM Prestamos WHERE id = ?";
             pstmt = conn.prepareStatement(selectQuery);
             pstmt.setInt(1, id);
             int rs = pstmt.executeUpdate();
@@ -147,11 +147,9 @@ public class RentDatasourceImplements extends RentDatasource {
             pstmt.setDate(4, rent.getReturnDate());
             int filasInsertadas = pstmt.executeUpdate();
             if (filasInsertadas > 0) {
-                System.out.println("El préstamo se insertó correctamente en la base de datos.");
-            } else {
-                System.out.println("No se pudo insertar el préstamo en la base de datos.");
+                return "created";
             }
-            return "created";
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -166,4 +164,43 @@ public class RentDatasourceImplements extends RentDatasource {
         }
         return null;
     }
+
+    @Override
+    public String insertRentAdmin(Rent rent) {
+        try {
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+
+            String selectQuery = """
+            INSERT INTO Prestamos (
+                       libro_id,
+                       usuario_id,
+                       fecha_recogida, 
+                       fecha_devolucion) 
+            VALUES ((SELECT id FROM Libros WHERE titulo = ?),(SELECT id FROM Usuarios WHERE email = ?), ?, ?)
+            """;
+            pstmt = conn.prepareStatement(selectQuery);
+            pstmt.setString(1, rent.getBookName());
+            pstmt.setString(2, rent.getUserEmail());
+            pstmt.setDate(3, rent.getPickUpDate());
+            pstmt.setDate(4, rent.getReturnDate());
+            int filasInsertadas = pstmt.executeUpdate();
+            if (filasInsertadas > 0) {
+                return "created";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Paso 4: Cerrar la conexión y los recursos
+            try {
+                if (stmt != null) stmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+
 }
